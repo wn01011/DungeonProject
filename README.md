@@ -4,9 +4,9 @@
 2 person Team Project
 
 2D RogueLite Dungeon Simulating Game
-Make your Own Dungeon
-Kill Ugly Heroes
-Lots of synergy
+1. Make your Own Dungeon
+2. Kill Ugly Heroes
+3. Lots of synergy
 
 Plan
 A(Can Play) -> B(Can Enjoy) -> C(???)
