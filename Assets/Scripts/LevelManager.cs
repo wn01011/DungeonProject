@@ -4,8 +4,13 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
-    private GameObject groundRoom = null;
+    private GameObject basicRoom = null;
     private GameObject bossRoom = null;
+    private GameObject fireRoom = null;
+    private GameObject waterRoom = null;
+    private GameObject windRoom = null;
+    private GameObject thunderRoom = null;
+    private GameObject earthRoom = null;
     private GameObject entrance = null;
     private GameObject stair = null;
     private GameObject door = null;
@@ -20,15 +25,18 @@ public class LevelManager : MonoBehaviour
     {
         basic,
         boss,
-        trap
+        fire,
+        water,
+        earth,
+        wind,
+        thunder
     }
-    // 0 : blank
-    // 1 : skeleton
+
     private roomType[] roomMap = new roomType[]
     {
-        roomType.basic, roomType.basic, roomType.basic,
-        roomType.basic, roomType.basic, roomType.basic,
-        roomType.basic, roomType.basic, roomType.basic,
+        roomType.earth, roomType.fire, roomType.basic,
+        roomType.thunder, roomType.water, roomType.basic,
+        roomType.wind, roomType.basic, roomType.basic,
         roomType.boss
     };
     
@@ -37,8 +45,13 @@ public class LevelManager : MonoBehaviour
     {
         roomCount = roomMap.Length;
         stair = Resources.Load<GameObject>("Prefabs\\Stair");
-        groundRoom = Resources.Load<GameObject>("Prefabs\\Room_F1");
+        basicRoom = Resources.Load<GameObject>("Prefabs\\Room_F1");
         bossRoom = Resources.Load<GameObject>("Prefabs\\Room_boss");
+        fireRoom = Resources.Load<GameObject>("Prefabs\\Room_Fire");
+        waterRoom = Resources.Load<GameObject>("Prefabs\\Room_Water");
+        windRoom = Resources.Load<GameObject>("Prefabs\\Room_Wind");
+        earthRoom = Resources.Load<GameObject>("Prefabs\\Room_Earth");
+        thunderRoom = Resources.Load<GameObject>("Prefabs\\Room_Thunder");
         entrance = Resources.Load<GameObject>("Prefabs\\Entrance");
         door = Resources.Load<GameObject>("Prefabs\\Door");
     }
@@ -46,22 +59,27 @@ public class LevelManager : MonoBehaviour
 
     private GameObject RoomSelection(roomType _roomType)
     {
-        if(_roomType == roomType.basic)
+        switch (_roomType)
         {
-            return groundRoom;
-        }
-        else if(_roomType== roomType.boss)
-        {
-            return bossRoom;
-        }
-        else if(_roomType == roomType.trap)
-        {
-            return null;
-        }
-        else
-            return null;
+            case roomType.basic:
+                return basicRoom;
+            case roomType.boss:
+                return bossRoom;
+            case roomType.fire:
+                return fireRoom;
+            case roomType.water:
+                return waterRoom;
+            case roomType.earth:
+                return earthRoom;
+            case roomType.wind:
+                return windRoom;
+            case roomType.thunder:
+                return thunderRoom;
+            default:
+                return null;
+        } 
     }
-    private void Start()
+        private void Start()
     {
         //Entrance
         Instantiate(entrance, Vector3.up * 1.8f, Quaternion.identity);
@@ -100,10 +118,6 @@ public class LevelManager : MonoBehaviour
         }
         
         #endregion
-    GameObject[] rooms = GameObject.FindGameObjectsWithTag("Room");
-    for(int i=0; i<rooms.Length; ++i)
-    {
-        Debug.Log(rooms[i].name);
-    }   
+       
     }
 }
