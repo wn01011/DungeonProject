@@ -6,6 +6,10 @@ TagManager:
   tags:
   - Room
   - BossRoom
+  - LevelManager
+  - Entrance
+  - Door
+  - Boss
   layers:
   - Default
   - TransparentFX
