@@ -10,6 +10,13 @@ TagManager:
   - Entrance
   - Door
   - Boss
+  - SpawnManager
+  - Undefined
+  - Monster
+  - Hero
+  - Panel
+  - SetMonster
+  - MonsterImg
   layers:
   - Default
   - TransparentFX
