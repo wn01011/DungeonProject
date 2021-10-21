@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
-public class FireBall : MonoBehaviour
+using UnityEngine.EventSystems;
+public class FireBall : MonoBehaviour, IPointerDownHandler
 {
     [SerializeField] Slider Mp_bar = null;
 
@@ -30,30 +30,29 @@ public class FireBall : MonoBehaviour
         mousePos = Input.mousePosition;
         transPos = Camera.main.ScreenToWorldPoint(mousePos);
 
-        Cast();
+        
         HandleMP();
         Regeneration();
     }
-
-    private void Cast()
+    public void OnPointerDown(PointerEventData eventData)
     {
-        if (transPos.x > -8f && transPos.x <8f && transPos.y < 2f && transPos.y > -5f)
+        GameObject curTarget = eventData.pointerCurrentRaycast.gameObject;
+        if(cast_on && curTarget.CompareTag("FightZone"))
         {
-            if (Input.GetMouseButtonDown(0) && cast_on == true)
+            if(curMp > 10)
             {
-                if (curMp > 10)
-                {
-                    StartCoroutine("Explosion");
-                    curMp -= 10;
+                StartCoroutine("Explosion");
+                curMp -= 10;
 
-                    if (curMp < 10)
-                    {
-                        cast_on = false;
-                    }
+                if(curMp < 10)
+                {
+                    cast_on = false;
                 }
             }
         }
     }
+
+    
 
     private void Regeneration()
     {
@@ -92,4 +91,5 @@ public class FireBall : MonoBehaviour
         yield return new WaitForSeconds(animator.runtimeAnimatorController.animationClips[0].length);
         Destroy(myfireball);
     }
+
 }
