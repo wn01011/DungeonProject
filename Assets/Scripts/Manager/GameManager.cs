@@ -94,6 +94,12 @@ public class GameManager : MonoBehaviourPunCallbacks
     }
     public void ReStart()
     {
+        if(wave > 10)
+        {
+            GameOver();
+            Debug.Log("GameOver!");
+            return;
+        }
         spawnManager.Restart();
         foreach(Monster monster in spawnManager.GetComponentsInChildren<Monster>())
         {
@@ -103,9 +109,11 @@ public class GameManager : MonoBehaviourPunCallbacks
         boss.transform.position = bossPos;
         StartCoroutine(WaveCheck());
     }
+    private void GameOver()
+    {
+        SceneManager.LoadScene("GameOver");
+    }
 
-
-    [SerializeField]private LevelManager levelManager = null;
     [SerializeField]private SpawnManager spawnManager = null;
     private Hero[] heroes = null;
     private GameObject boss = null;
