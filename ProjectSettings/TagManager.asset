@@ -6,6 +6,17 @@ TagManager:
   tags:
   - Room
   - BossRoom
+  - LevelManager
+  - Entrance
+  - Door
+  - Boss
+  - SpawnManager
+  - Undefined
+  - Monster
+  - Hero
+  - Panel
+  - SetMonster
+  - MonsterImg
   layers:
   - Default
   - TransparentFX

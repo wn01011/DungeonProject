@@ -32,10 +32,10 @@ A
   Attack, Skill (Cooldown -> find target -> Attack -> idle(Cooldown) -> find tartget)
   Die & Revive, Wave System
   
-6. Root System : 
+6. Root System
   Hero -> Resources (maybe root useful item?)
   
-7. Permanent Upgrade System : 
+7. Permanent Upgrade System
   After you play, your dungeon will reset But your Cutty PoD will be Greater
 
 ---------------------------
