@@ -17,7 +17,6 @@ public class FireBall : MonoBehaviour, IPointerDownHandler
 
     float mncMp;
 
-    Vector3 mousePos, transPos;
 
     void Start()
     {
@@ -27,10 +26,6 @@ public class FireBall : MonoBehaviour, IPointerDownHandler
 
     private void Update()
     {
-        mousePos = Input.mousePosition;
-        transPos = Camera.main.ScreenToWorldPoint(mousePos);
-
-        
         HandleMP();
         Regeneration();
     }

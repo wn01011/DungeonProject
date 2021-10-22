@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class HPcontrol : MonoBehaviour
 {
-
     void Start()
     {
         StartCoroutine(Init());
@@ -57,9 +56,16 @@ public class HPcontrol : MonoBehaviour
         for (int i = 0; i < t_objects.Count; i++)
         {
             monster_objectList.Add(t_objects[i].transform);
-            Slider t_hpbar = Instantiate(Hp_bar, t_objects[i].transform.position, Quaternion.identity, transform);
+            Slider t_hpbar = Instantiate(Hp_bar, t_objects[i].transform.position, Quaternion.identity, hpBars.transform);
             hpBarList.Add(t_hpbar);
         }
+    }
+    public void NewHpBarMaker(GameObject _newHero)
+    {
+        t_objects.Add(_newHero);
+        monster_objectList.Add(_newHero.transform);
+        Slider t_hpbar = Instantiate(Hp_bar, t_objects[t_objects.Count - 1].transform.position, Quaternion.identity, hpBars.transform);
+        hpBarList.Add(t_hpbar);
     }
     private void HandleHP()
     {
@@ -94,7 +100,7 @@ public class HPcontrol : MonoBehaviour
 
 
     [SerializeField] private Slider Hp_bar = null;
-
+    [SerializeField] private GameObject hpBars = null;
     public List<Transform> monster_objectList = new List<Transform>();
     public List<Slider> hpBarList = new List<Slider>();
     public List<GameObject> t_objects = new List<GameObject>();

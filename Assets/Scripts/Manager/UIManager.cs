@@ -24,10 +24,28 @@ public class UIManager : MonoBehaviourPunCallbacks
         panelList.Add(mailBtnPanel);
 
         #endregion
+
+        MakeCursor();
+        WaveTextUpdate();
         StartCoroutine(GoodsTextUpdate());
     }
+    private void Update()
+    {
+        MoveCursor();
+    }
+    private void MakeCursor()
+    {
+        cursor = new GameObject("Cursor");
+        cursorSprite = Resources.Load<Sprite>("Sprites/cursor/cursor(1)");
+        
+        cursor.AddComponent<CanvasRenderer>();
+        cursor.AddComponent<Image>();
+        cursor.GetComponent<Image>().sprite = cursorSprite;
+        cursor.GetComponent<Image>().raycastTarget = false;
+        cursor.GetComponent<RectTransform>().sizeDelta = new Vector2(50f, 50f);
+        cursor.transform.SetParent(canvas.transform);
+    }
 
-    
     #region Button OnClick Methods
 
     //btnList[idx], panelList[idx] match
@@ -76,7 +94,15 @@ public class UIManager : MonoBehaviourPunCallbacks
         exitBtnPanel.SetActive(false);
     }
 
+    public void DungeonMaintenanceBtn()
+    {
+        isMaintenance = false;
+        maintenanceBtn.gameObject.SetActive(false);
+    }
+
     #endregion
+
+    #region Texts
 
     private IEnumerator GoodsTextUpdate()
     {
@@ -89,14 +115,47 @@ public class UIManager : MonoBehaviourPunCallbacks
             yield return new WaitForSeconds(1f);
         }
     }
+    public void WaveTextUpdate()
+    {
+        waveText.text = GameManager.wave + " wave(" + spawnManager.curHeroCount + " / " + spawnManager.maxHeroCount + ")";
+    }
 
+    #endregion
+
+    #region Cursor
+
+    private void MoveCursor()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        if(Physics.Raycast(ray))
+        {
+            Debug.DrawRay(ray.origin, ray.direction,Color.red);
+            cursor.GetComponent<Image>().rectTransform.position = Input.mousePosition;
+        }
+    }
+
+    #endregion
+
+
+    public bool isMaintenance = false;
 
     private List<Button> btnList = new List<Button>();
     private List<GameObject> panelList = new List<GameObject>();
 
+    private Sprite cursorSprite = null;
+    private Vector3 mouseWorldPos = Vector3.zero;
+    private GameObject cursor = null;
+    
+    [SerializeField] private Text waveText = null;
+    [SerializeField] private Canvas canvas = null;
+
+    [Header("Manager")]
     [SerializeField] private GameManager gameManager = null;
+    [SerializeField] private SpawnManager spawnManager = null;
 
     [Header("Button")]
+    public Button maintenanceBtn = null;
     [SerializeField] private Button unitBtn = null;
     [SerializeField] private Button buildBtn = null;
     [SerializeField] private Button itemBtn = null;
