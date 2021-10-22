@@ -22,6 +22,7 @@ public class KnightBehaviour : Hero
             attackCount++;
             skillCooldown.fillAmount = attackCount * 0.25f;
             Passive_Skill();
+            
         }
     }
 

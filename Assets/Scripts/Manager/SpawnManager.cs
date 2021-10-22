@@ -60,6 +60,7 @@ public class SpawnManager : MonoBehaviour
         MonsterPositioning();
         StartCoroutine(heroWave());
     }
+
     private GameObject MonsterSelection(monsterType _monsterType)
     {
         switch (_monsterType)
@@ -88,8 +89,13 @@ public class SpawnManager : MonoBehaviour
                 return null;
         }
     }
+
     private void SpawnHero()
     {
+        curHeroCount = heroCount;
+        maxHeroCount = heroCount;
+        uiManager.WaveTextUpdate();
+
         for(int i=0; i<heroCount; ++i)
         {
             if(HeroSelection(heroSpawn[i]))
@@ -161,12 +167,16 @@ public class SpawnManager : MonoBehaviour
             for(int i=0; i< GameManager.wave; ++i)
             {
                 GameObject newHero = Instantiate(HeroSelection(heroSpawn[i]), Vector3.right * 100f, Quaternion.identity, transform);
+                hpControl.NewHpBarMaker(newHero);
             }
             gameManager.waveUp = false;
         }
         yield return new WaitForSeconds(0.5f);
 
         Hero[] heros = FindObjectsOfType<Hero>();
+        curHeroCount = heros.Length;
+        maxHeroCount = heros.Length;
+        uiManager.WaveTextUpdate();
 
         foreach (GameObject monster in monsterList)
         {
@@ -181,6 +191,17 @@ public class SpawnManager : MonoBehaviour
             heroQueue.Enqueue(heros[i].gameObject);
         }
         MonsterPositioning();
+
+        //던전 유지보수 시간 동안 다음 웨이브 진행 멈춤
+        isMaintenance = true;
+        while(isMaintenance)
+        {
+            isMaintenance = uiManager.isMaintenance;
+            yield return new WaitForEndOfFrame();
+        }
+        yield return new WaitUntil(() => !isMaintenance);
+        
+
         StartCoroutine(heroWave());
     }
     public void ChangeMonsterSpawnMap(int _aryNum, monsterType _target)
@@ -198,6 +219,8 @@ public class SpawnManager : MonoBehaviour
 
     private int monsterCount = 0;
     private int heroCount = 0;
+    public int curHeroCount = 0;
+    public int maxHeroCount = 0;
 
     public  List<GameObject> monsterList = new List<GameObject>();
     private Queue<GameObject> heroQueue = new Queue<GameObject>();
@@ -206,5 +229,9 @@ public class SpawnManager : MonoBehaviour
     private Vector3 bossPos = new Vector3(1.29f, -1.68f);
     
     public GameObject[] rooms = null;
+    public bool isMaintenance = false;
+
     [SerializeField] private GameManager gameManager = null;
+    [SerializeField] private UIManager uiManager = null;
+    [SerializeField] private HPcontrol hpControl = null;
 }

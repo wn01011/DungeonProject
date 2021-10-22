@@ -19,21 +19,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             this.soulgem = _soulgem;
         }
     }
-    //public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
-    //{
-    //    if(stream.IsWriting)
-    //    {
-    //        stream.SendNext(goods.bone);
-    //        stream.SendNext(goods.tear);
-    //        stream.SendNext(goods.crystal);
-    //    }
-    //    else
-    //    {
-    //        goods.bone = (int)stream.ReceiveNext();
-    //        goods.tear = (int)stream.ReceiveNext();
-    //        goods.crystal = (int)stream.ReceiveNext();
-    //    }
-    //}
+   
 
     private void Start()
     {
@@ -45,6 +31,9 @@ public class GameManager : MonoBehaviourPunCallbacks
         StartCoroutine(WaveCheck());
         heroes = FindObjectsOfType<Hero>();
     }
+
+    //접속 종료시점에 PlayerPreferences에 포톤에 들어올때 입력했던 닉네임 + 재화이름을 키로 설정하고 재화를 저장해둠
+    //한 컴퓨터 내에선 데이터 저장이 가능함
     public override void OnDisconnected(DisconnectCause cause) 
     {
         PlayerPrefs.SetInt(PhotonNetwork.LocalPlayer.NickName + "Bones", goods.bone);
@@ -92,6 +81,9 @@ public class GameManager : MonoBehaviourPunCallbacks
         Debug.Log("Boss Die!");
         ReStart();
     }
+
+    #region ReStart
+
     public void ReStart()
     {
         if(wave > 10)
@@ -100,6 +92,7 @@ public class GameManager : MonoBehaviourPunCallbacks
             Debug.Log("GameOver!");
             return;
         }
+
         spawnManager.Restart();
         foreach(Monster monster in spawnManager.GetComponentsInChildren<Monster>())
         {
@@ -107,14 +100,32 @@ public class GameManager : MonoBehaviourPunCallbacks
         }
         boss.GetComponent<Boss>().bossDie = false;
         boss.transform.position = bossPos;
+
+        //유지 보수 시간 직전에 웨이브text를 업데이트 해줌
+        uiManager.WaveTextUpdate();
+        StartCoroutine(ReStartMaintenance());
+
         StartCoroutine(WaveCheck());
     }
+
+    private IEnumerator ReStartMaintenance()
+    {
+        uiManager.isMaintenance = true;
+        uiManager.maintenanceBtn.gameObject.SetActive(true);
+        
+        yield return new WaitUntil(() => !uiManager.isMaintenance);
+        
+    }
+
     private void GameOver()
     {
         SceneManager.LoadScene("GameOver");
     }
+   
+    #endregion
 
-    [SerializeField]private SpawnManager spawnManager = null;
+    [SerializeField] private SpawnManager spawnManager = null;
+    [SerializeField] private UIManager uiManager = null;
     private Hero[] heroes = null;
     private GameObject boss = null;
     private Vector3 bossPos = Vector3.zero;

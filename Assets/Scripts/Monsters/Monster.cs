@@ -7,8 +7,9 @@ abstract public class Monster : MonoBehaviour
     protected virtual void Start()
     {
         animator = GetComponentInChildren<Animator>();
-        rb = GetComponentInChildren<Rigidbody2D>();
-        sr = GetComponentInChildren<SpriteRenderer>();
+        monsterRb = GetComponentInChildren<Rigidbody2D>();
+        monsterSr = GetComponentInChildren<SpriteRenderer>();
+        tempColor = monsterSr.color;
         spawnManager = GameObject.FindGameObjectWithTag("SpawnManager").GetComponent<SpawnManager>();
         
         StartCoroutine(RoomCheck());
@@ -37,18 +38,45 @@ abstract public class Monster : MonoBehaviour
         return maxHp;
     }
 
-    public virtual void Hurt(float _dmg)
+    public virtual void Hurt(float _damage)
     {
-        if(hp - _dmg <= 0)
+        if (hp - _damage <= 0)
         {
-            hp = 0f;
+            hp = 0;
             Dead();
         }
         else
         {
-            animator.SetTrigger("Hurt");
-            hp -= _dmg;
+            if (!isHurtColor)
+                StartCoroutine(HurtAlphaChange());
+            if (isHurtColor)
+            {
+                StopCoroutine(HurtAlphaChange());
+                monsterSr.color = tempColor;
+                StartCoroutine(HurtAlphaChange());
+            }
+            hp -= _damage;
         }
+    }
+    IEnumerator HurtAlphaChange()
+    {
+        isHurtColor = true;
+        int negativeSwitch = 1;
+        for (int i = 0; i < 3f; ++i)
+        {
+            if (negativeSwitch == 1)
+            {
+                // ¹Ù²ð Color°ª
+                monsterSr.color = Color.red;
+            }
+            else
+            {
+                monsterSr.color = tempColor;
+            }
+            negativeSwitch *= -1;
+            yield return new WaitForSeconds(0.1f);
+        }
+        monsterSr.color = tempColor;
     }
     protected virtual void Dead()
     {
@@ -64,7 +92,6 @@ abstract public class Monster : MonoBehaviour
     }
     private IEnumerator RoomCheck()
     {
-        
         while (true)
         {
             ray.direction = Vector3.forward;
@@ -89,7 +116,12 @@ abstract public class Monster : MonoBehaviour
         yield return new WaitUntil(() => curRoom != null);
         while (true)
         {
-            if (curRoom.GetComponentsInChildren<Hero>().Length != 0 && !isDie)
+            if(!curRoom.GetComponentInChildren<Hero>())
+            {
+                yield return new WaitForEndOfFrame();
+                continue;
+            }
+            else if (curRoom.GetComponentsInChildren<Hero>().Length != 0 && !isDie)
             {
                 animator.SetTrigger("Attack");
                 float attackClipLength = animator.runtimeAnimatorController.animationClips[0].length;
@@ -98,7 +130,7 @@ abstract public class Monster : MonoBehaviour
                     Attack();
                 yield return new WaitForSeconds(attackClipLength * 0.5f);
             }
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForEndOfFrame();
         }
     }
     public void ReStart()
@@ -108,16 +140,17 @@ abstract public class Monster : MonoBehaviour
         SetHp();
         isDie = false;
         animator.SetTrigger("ReStart");
+        monsterSr.color = Color.white;
         StartCoroutine(RoomCheck());
         StartCoroutine(RoomHeroCheck());
     }
 
     protected Animator animator;
-    protected Rigidbody2D rb;
-    protected SpriteRenderer sr;
+    protected Rigidbody2D monsterRb;
+    protected SpriteRenderer monsterSr;
 
     [SerializeField] protected float hp =0f;
-    protected float maxHp = 0f;
+                     protected float maxHp = 0f;
     [SerializeField] protected int attributes = 0;
     [SerializeField] protected float damage =0f;
     [SerializeField] protected SpawnManager spawnManager = null;
@@ -130,5 +163,8 @@ abstract public class Monster : MonoBehaviour
     private RaycastHit raycastHit = new RaycastHit();
 
     public bool isDie = false;
+    private bool isHurtColor = false;
+
+    private Color tempColor = Color.white;
 }
 
