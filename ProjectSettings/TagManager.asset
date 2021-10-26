@@ -19,6 +19,7 @@ TagManager:
   - MonsterImg
   - FightZone
   - CurRoomMonsterImg
+  - ScrollBar
   layers:
   - Default
   - TransparentFX

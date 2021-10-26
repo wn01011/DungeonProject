@@ -12,6 +12,7 @@ public class KnightBehaviour : Hero
         hp = 10f;
         maxHp = hp;
         damage = 2f;
+        defense = 1f;
     }
 
     protected override void Attack()

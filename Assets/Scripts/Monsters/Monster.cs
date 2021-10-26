@@ -10,8 +10,8 @@ abstract public class Monster : MonoBehaviour
         monsterRb = GetComponentInChildren<Rigidbody2D>();
         monsterSr = GetComponentInChildren<SpriteRenderer>();
         tempColor = monsterSr.color;
-        spawnManager = GameObject.FindGameObjectWithTag("SpawnManager").GetComponent<SpawnManager>();
-        
+        spawnManager = FindObjectOfType<SpawnManager>();
+        gameManager = FindObjectOfType<GameManager>();
         StartCoroutine(RoomCheck());
         StartCoroutine(RoomHeroCheck());
     }
@@ -21,7 +21,7 @@ abstract public class Monster : MonoBehaviour
         Hero target = curRoom.GetComponentInChildren<Hero>();
         if (target)
         {
-            target.Hurt(damage);
+            target.Hurt(damage,target.defense);
         }
     }
     abstract protected void Active_Skill();
@@ -148,12 +148,15 @@ abstract public class Monster : MonoBehaviour
     protected Animator animator;
     protected Rigidbody2D monsterRb;
     protected SpriteRenderer monsterSr;
+    
+    protected GameManager gameManager = null;
+    protected SpawnManager spawnManager = null;
 
     [SerializeField] protected float hp =0f;
                      protected float maxHp = 0f;
     [SerializeField] protected int attributes = 0;
-    [SerializeField] protected float damage =0f;
-    [SerializeField] protected SpawnManager spawnManager = null;
+    [SerializeField] protected float damage = 0f;
+    [SerializeField] protected float defense = 0f;
     protected Transform pos;
 
     private Vector3 waitPos = Vector3.right * 100f;

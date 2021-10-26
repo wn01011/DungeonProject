@@ -13,13 +13,20 @@ public class EventSystemManager : MonoBehaviour, IPointerDownHandler
         setMonsterPanelText = setMonsterPanel.GetComponentInChildren<Text>();
         hpControl = GetComponent<HPcontrol>();
         rooms = spawnManager.rooms;
+
         skeleton = Resources.Load<GameObject>("Prefabs\\Monsters\\SkeletonWarrior");
+        zombie = Resources.Load<GameObject>("Prefabs\\Monsters\\Zombie");
+        goblin = Resources.Load<GameObject>("Prefabs\\Monsters\\Goblin");
+        flyingeye = Resources.Load<GameObject>("Prefabs\\Monsters\\FlyingEye");
+        darkwizard = Resources.Load<GameObject>("Prefabs\\Monsters\\DarkWizard");
         deathbringer = Resources.Load<GameObject>("Prefabs\\Monsters\\DeathBringer");
         
-        monsterImgs[0].sprite = skeletonSourceIamge;
-        monsterImgs[1].sprite = deathBringerSourceIamge;
-        monsterImgs[1].rectTransform.localScale = new Vector3(-1f, 1f, 1f);
-        monsterImgs[1].GetComponentInChildren<Text>().rectTransform.localScale = new Vector3(-1f, 1f, 1f);
+        monsterImgs[0].sprite = skeletonSourceImage;
+        monsterImgs[1].sprite = zombieSourceImage;
+        monsterImgs[2].sprite = goblinSourceImage;
+        monsterImgs[3].sprite = flyingeyeSourceImage;
+        monsterImgs[4].sprite = darkwizardSourceImage;
+        monsterImgs[5].sprite = deathBringerSourceImage;
 
         #endregion
     }
@@ -50,6 +57,8 @@ public class EventSystemManager : MonoBehaviour, IPointerDownHandler
                     break;
                 }
             }
+            Debug.Log(curTarget.name);
+            Debug.Log(roomNum);
             setMonsterPanelText.text = rooms[roomNum].name;
 
             //현재 방에 몬스터가 존재한다면 sprite를 해당 몬스터에 맞게 curRoomMonsterImg에 넣어준다.
@@ -60,12 +69,12 @@ public class EventSystemManager : MonoBehaviour, IPointerDownHandler
                 {
                     if (myMonsters[i].GetComponent<Skeleton>())
                     {
-                        curRoomMonsterImg[i].sprite = skeletonSourceIamge;
+                        curRoomMonsterImg[i].sprite = skeletonSourceImage;
                         curRoomMonsterImg[i].rectTransform.localScale = new Vector3(-1f, 1f, 1f);
                     }
                     else if (myMonsters[i].GetComponent<DeathBringer>())
                     {
-                        curRoomMonsterImg[i].sprite = deathBringerSourceIamge;
+                        curRoomMonsterImg[i].sprite = deathBringerSourceImage;
                         curRoomMonsterImg[i].rectTransform.localScale = new Vector3(1f, 1f, 1f);
                     }
                 }
@@ -179,15 +188,47 @@ public class EventSystemManager : MonoBehaviour, IPointerDownHandler
                     price = 100;
                     monsterType = SpawnManager.monsterType.skeleton;
                     newMonster = skeleton;
-                    curRoomImg = skeletonSourceIamge;
+                    curRoomImg = skeletonSourceImage;
                 }
                 break;
             case 1:
                 {
                     price = 200;
+                    monsterType = SpawnManager.monsterType.zombie;
+                    newMonster = zombie;
+                    curRoomImg = zombieSourceImage;
+                }
+                break;
+            case 2:
+                {
+                    price = 300;
+                    monsterType = SpawnManager.monsterType.goblin;
+                    newMonster = goblin;
+                    curRoomImg = goblinSourceImage;
+                }
+                break;
+            case 3:
+                {
+                    price = 400;
+                    monsterType = SpawnManager.monsterType.flyingeye;
+                    newMonster = flyingeye;
+                    curRoomImg = flyingeyeSourceImage;
+                }
+                break;
+            case 4:
+                {
+                    price = 500;
+                    monsterType = SpawnManager.monsterType.darkwizard;
+                    newMonster = darkwizard;
+                    curRoomImg = darkwizardSourceImage;
+                }
+                break;
+            case 5:
+                {
+                    price = 600;
                     monsterType = SpawnManager.monsterType.deathbringer;
                     newMonster = deathbringer;
-                    curRoomImg = deathBringerSourceIamge;
+                    curRoomImg = deathBringerSourceImage;
                 }
                 break;
             default:
@@ -246,7 +287,7 @@ public class EventSystemManager : MonoBehaviour, IPointerDownHandler
     }
     private void MonsterSelectEffectOff()
     {
-        for(int i=0; i<selectEffect.Length - monsterImgs.Length; ++i)
+        for(int i=0; i<selectEffect.Length - curRoomMonsterImg.Length; ++i)
         {
             selectEffect[i].SetActive(false);
         }
@@ -263,21 +304,32 @@ public class EventSystemManager : MonoBehaviour, IPointerDownHandler
 
     #endregion
 
+    #region variables
 
-    private GameObject[] rooms = null;
-    private Text setMonsterPanelText = null;
-    
-    [SerializeField] private GameObject setMonsterPanel = null;
+    [Header("ETC")]
     [SerializeField] private GameObject[] roomColArray = new GameObject[9];
-    [SerializeField] private GameObject[] selectEffect = new GameObject[4];
+    [SerializeField] private GameObject setMonsterPanel = null;
+    [SerializeField] private GameObject[] selectEffect = new GameObject[8];
+
+    [Header("MonsterSourceImg")]
+    [SerializeField] private Sprite skeletonSourceImage = null;
+    [SerializeField] private Sprite zombieSourceImage = null;
+    [SerializeField] private Sprite goblinSourceImage = null;
+    [SerializeField] private Sprite flyingeyeSourceImage = null;
+    [SerializeField] private Sprite darkwizardSourceImage = null;
+    [SerializeField] private Sprite deathBringerSourceImage = null;
+    
+    [Header("MonsterImg")]
     [SerializeField] private Image[] monsterImgs = null;
     [SerializeField] private Image[] curRoomMonsterImg = null;
-    [SerializeField] private Sprite skeletonSourceIamge = null;
-    [SerializeField] private Sprite deathBringerSourceIamge = null;
 
+    [Header("Manager")]
     [SerializeField] private GameManager gameManager = null;
     [SerializeField] private SpawnManager spawnManager = null;
     [SerializeField] private UIManager uiManager = null;
+    
+    private GameObject[] rooms = null;
+    private Text setMonsterPanelText = null;
     private HPcontrol hpControl = null;
 
     private bool changeOn = false;
@@ -288,5 +340,12 @@ public class EventSystemManager : MonoBehaviour, IPointerDownHandler
 
     private int roomNum = 0;
     private GameObject skeleton = null;
+    private GameObject zombie = null;
+    private GameObject goblin = null;
+    private GameObject flyingeye = null;
+    private GameObject darkwizard = null;
     private GameObject deathbringer = null;
+
+    #endregion
+
 }

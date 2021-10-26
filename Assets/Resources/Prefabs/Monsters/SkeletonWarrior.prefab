@@ -95,7 +95,7 @@ Animator:
   m_GameObject: {fileID: 4321609893847847991}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 09bb4419dfcb8054f96af0a2b5201160, type: 2}
+  m_Controller: {fileID: 9100000, guid: 9d77624eb61c83a4c9d15a066791c1fb, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -119,7 +119,7 @@ MonoBehaviour:
   hp: 0
   attributes: 0
   damage: 0
-  spawnManager: {fileID: 0}
+  defense: 0
   curRoom: {fileID: 0}
   isDie: 0
 --- !u!65 &3214812888291047103

@@ -8,6 +8,10 @@ public class SpawnManager : MonoBehaviour
     {
         blank,
         skeleton,
+        zombie,
+        goblin,
+        flyingeye,
+        darkwizard,
         deathbringer,
         boss
     }
@@ -24,9 +28,9 @@ public class SpawnManager : MonoBehaviour
     //boss
     private monsterType[] spawn = new monsterType[]
     {
-        monsterType.skeleton, monsterType.deathbringer,             monsterType.skeleton, monsterType.deathbringer,             monsterType.skeleton, monsterType.deathbringer,
-        monsterType.skeleton, monsterType.skeleton,                 monsterType.skeleton, monsterType.deathbringer,             monsterType.skeleton, monsterType.deathbringer,
-        monsterType.skeleton, monsterType.deathbringer,             monsterType.skeleton, monsterType.deathbringer,             monsterType.skeleton, monsterType.deathbringer,
+        monsterType.skeleton, monsterType.skeleton,             monsterType.skeleton, monsterType.skeleton,             monsterType.skeleton, monsterType.skeleton,
+        monsterType.skeleton, monsterType.skeleton,             monsterType.skeleton, monsterType.skeleton,             monsterType.skeleton, monsterType.skeleton,
+        monsterType.skeleton, monsterType.skeleton,             monsterType.skeleton, monsterType.skeleton,             monsterType.skeleton, monsterType.skeleton,
         monsterType.boss
     };
     //hero spawn Mapping
@@ -208,8 +212,8 @@ public class SpawnManager : MonoBehaviour
     {
         spawn[_aryNum] = _target;
     }
-    
-    
+
+   
 
     private GameObject skeleton = null;
     private GameObject deathbringer = null;

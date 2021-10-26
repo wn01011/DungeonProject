@@ -58,14 +58,20 @@ abstract public class Hero : MonoBehaviour
 
     #endregion
 
-    public void Hurt(float _damage)
+    public void Hurt(float _damage, float _defense)
     {
-        if (hp - _damage <= 0)
+        float trueDamage = _damage - _defense;
+        if(trueDamage < 0)
+        {
+            trueDamage = 0;
+        }
+        
+        if (hp - trueDamage <= 0)
         {
             hp = 0;
             Dead();
         }
-        else 
+        else if(trueDamage != 0)
         {
             if(!isHurtColor)
                 StartCoroutine(HurtAlphaChange());
@@ -75,7 +81,7 @@ abstract public class Hero : MonoBehaviour
                 heroSr.color = tempColor;
                 StartCoroutine(HurtAlphaChange());
             }
-            hp -= _damage;       
+            hp -= trueDamage;       
         }
     }
 
@@ -128,6 +134,8 @@ abstract public class Hero : MonoBehaviour
 
         maxHp = 10 + GameManager.wave * 5;
         damage = GameManager.wave;
+        defense = GameManager.wave;
+        
         SetHp();
         isDie = false;
         moveStart = false;
@@ -295,6 +303,7 @@ abstract public class Hero : MonoBehaviour
     [SerializeField] protected float hp = 0f;
     [SerializeField] protected float maxHp = 0f;
     [SerializeField] protected float damage = 0f;
+                        public float defense = 0f;
 
     protected Transform pos;
     private Transform entranceTr = null;

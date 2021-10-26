@@ -56,7 +56,10 @@ public class FireBall : MonoBehaviour, IPointerDownHandler
                curMp += Time.deltaTime * 2f;
           }
     }
-
+    public void MP_absorb()
+    {
+        curMp += 2f;
+    }
     private void HandleMP()
     {
         mncMp = (float)curMp / (float)maxMp;
