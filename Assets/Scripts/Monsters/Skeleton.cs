@@ -4,20 +4,32 @@ using UnityEngine;
 
 public class Skeleton : Monster
 {
+    public static float static_maxHp = 10f;
+    public static float staticDmg = 1f;
+    public static float staticDef = 0f;
     private float poisonDmg = 0.2f;
+
+    protected void Update()
+    {
+        maxHp = static_maxHp;
+        damage = staticDmg;
+        defense = staticDef;
+    }
+
     protected override void Start()
     {
         base.Start();
         hp = 10f;
         maxHp = hp;
         damage = 1f;
+        defense = 0f;
     }
     protected override void Attack()
     {
         Hero target = curRoom.GetComponentInChildren<Hero>();
         if (target)
         {
-            target.Hurt(damage);
+            target.Hurt(damage,target.defense);
             Passive_Skill();
         }
     }
@@ -36,13 +48,13 @@ public class Skeleton : Monster
 
     private IEnumerator poisonAttack(Hero _targetHero)
     {
-        float duration = 20f;
+        float duration = 10f;
         float poisonTickTime = 1.0f;
         while(!_targetHero.isDie || duration <= 0f)
         {
             duration -= poisonTickTime;
             yield return new WaitForSeconds(poisonTickTime);
-            _targetHero.Hurt(0.2f);
+            _targetHero.Hurt(poisonDmg,0);
         }
     }
 }
