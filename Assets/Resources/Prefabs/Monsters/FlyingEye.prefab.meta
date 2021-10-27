@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Resources/Prefabs/Monsters/FlyingEye.prefab.meta
 guid: 25b63d8a820b5314689e46a71e8ef4e9
+=======
+guid: f9c530c708a537049a1613ef6be27f73
+>>>>>>> 32bb13424690c41b060d02f099a9e3ab6e485909:Assets/Resources/Prefabs/Monsters/Zombie.prefab.meta
 PrefabImporter:
   externalObjects: {}
   userData: 

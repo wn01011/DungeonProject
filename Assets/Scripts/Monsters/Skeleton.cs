@@ -4,10 +4,18 @@ using UnityEngine;
 
 public class Skeleton : Monster
 {
+
     public static float static_maxHp = 10f;
     public static float staticDmg = 1f;
     public static float staticDef = 0f;
     private float poisonDmg = 0.2f;
+
+    protected void Update()
+    {
+        maxHp = static_maxHp;
+        damage = staticDmg;
+        defense = staticDef;
+    }
 
     protected override void Start()
     {
@@ -31,6 +39,7 @@ public class Skeleton : Monster
         if (target)
         {
             target.Hurt(damage,target.defense);
+            SoundManager.soundManager.SFXplayer("SkeletonAtk", clip);
             Passive_Skill();
         }
     }

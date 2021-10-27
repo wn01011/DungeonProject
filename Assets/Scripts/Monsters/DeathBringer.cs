@@ -12,6 +12,12 @@ public class DeathBringer : Monster
 
     [SerializeField] private GameObject DeathBlow = null;
 
+    public AudioClip skillclip = null;
+    
+
+    
+
+    
     protected override void Start()
     {
         base.Start();
@@ -38,19 +44,19 @@ public class DeathBringer : Monster
         else
         {
             target.Hurt(damage, target.defense);
+            SoundManager.soundManager.SFXplayer("DeathBringerAtk", clip);
             Passive_Skill();
         }
-    }
-    public void SetStaticHp()
-    {
-        maxHp = static_maxHp;
-        hp = static_maxHp;
     }
     private IEnumerator Skill()
     {
         Hero target = curRoom.GetComponentInChildren<Hero>();
         //3초에 한번씩 스킬발동
         animator.SetTrigger("Skill");
+        GameObject skill = Instantiate(DeathBlow, target.transform.position + (Vector3.up * 0.9f), Quaternion.identity);
+        SoundManager.soundManager.SFXplayer("DeathBlow", skillclip);
+        yield return new WaitForSeconds(animator.runtimeAnimatorController.animationClips[0].length);
+        Destroy(skill);
         GameObject skill = Instantiate(DeathBlow, target.transform.position + (Vector3.up * 0.9f), Quaternion.identity);
         yield return new WaitForSeconds(animator.runtimeAnimatorController.animationClips[0].length);
         Destroy(skill);

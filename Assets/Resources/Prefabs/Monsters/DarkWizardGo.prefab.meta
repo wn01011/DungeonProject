@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Resources/Prefabs/Monsters/DarkWizardGo.prefab.meta
 guid: bf37caa11d807c443968e618c8c603a8
+=======
+guid: ed183cbc715a04444a5a4192942fe636
+>>>>>>> 32bb13424690c41b060d02f099a9e3ab6e485909:Assets/Resources/Prefabs/Monsters/Goblin.prefab.meta
 PrefabImporter:
   externalObjects: {}
   userData: 

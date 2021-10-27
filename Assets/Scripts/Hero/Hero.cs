@@ -117,8 +117,10 @@ abstract public class Hero : MonoBehaviour
         uiManager.WaveTextUpdate();
 
         animator.SetTrigger("Die");
+        SoundManager.soundManager.SFXplayer(DeathclipName, Deathclip);
         isDie = true;
         StartCoroutine(DieWait());
+
     }
 
     protected IEnumerator DieWait()
@@ -130,6 +132,8 @@ abstract public class Hero : MonoBehaviour
         curRoom = null;
     }
     
+        defense = GameManager.wave;
+        
     #region Hero Move
 
     #region MoveToward Functions
@@ -301,6 +305,8 @@ abstract public class Hero : MonoBehaviour
     protected Rigidbody2D heroRb = null;
     protected SpriteRenderer heroSr = null;
 
+    [SerializeField] protected string DeathclipName = null;
+    [SerializeField] protected string AttackclipName = null;
     [SerializeField] protected float hp = 0f;
     [SerializeField] protected float maxHp = 0f;
     [SerializeField] protected float damage = 0f;
@@ -316,6 +322,9 @@ abstract public class Hero : MonoBehaviour
     private float height = 0f;
     private float moveSpeed = 5f;
     public int attributes = 0;
+
+    public AudioClip Deathclip;
+    public AudioClip clip;
 
     private GameManager gameManager = null;
     private SpawnManager spawnManager = null;

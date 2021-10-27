@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class FlyingEye : Monster
 {
+    public AudioClip skill = null;
     public static float static_maxHp = 40f;
     public static float staticDmg = 5f;
     public static float staticDef = 2f;
@@ -42,12 +43,12 @@ public class FlyingEye : Monster
     protected override void Active_Skill()
     {
 
-    }
-
     protected override void Passive_Skill()
-    {
+    {        
+        // 33%확률로 공격회피
         Hero target = curRoom.GetComponentInChildren<Hero>();
-        // 20%확률로 공격회피
-        target.Hurt(damage * 0, target.defense);
+        SoundManager.soundManager.SFXplayer("Evasion", skill);
+        Hurt(damage * 0);
     }
+}
 }

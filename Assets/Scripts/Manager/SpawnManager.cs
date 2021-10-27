@@ -168,15 +168,15 @@ public class SpawnManager : MonoBehaviour
             else
             {
                 monsterList[2 * i-blankJumpCount].transform.parent = rooms[i].transform;
-                monsterList[2 * i-blankJumpCount].transform.localPosition = new Vector3(0.9f, -0.5f);
+                monsterList[2 * i-blankJumpCount].transform.localPosition = new Vector3(0.8f, -0.65f);
                 monsterList[2 * (i - blankJumpCount) + 1].transform.parent = rooms[i].transform;
-                monsterList[2 * (i - blankJumpCount) + 1].transform.localPosition = new Vector3(1.2f, -0.5f);
+                monsterList[2 * (i - blankJumpCount) + 1].transform.localPosition = new Vector3(1.2f, -0.65f);
             }
         }
         //bossPositioning
         {
             monsterList[monsterList.Count-1].transform.parent = rooms[rooms.Length - 1].transform;
-            monsterList[monsterList.Count-1].transform.localPosition = bossPos;
+            monsterList[monsterList.Count-1].transform.localPosition = bossPos + (Vector3.up*0.2f);
         }
     }
     public void Restart()
@@ -240,8 +240,10 @@ public class SpawnManager : MonoBehaviour
     private GameObject flyingEye = null;
     private GameObject darkWizard = null;
     private GameObject deathbringer = null;
+
     private GameObject knight = null;
     private GameObject bandit = null;
+
     private GameObject boss = null;
 
     private int monsterCount = 0;

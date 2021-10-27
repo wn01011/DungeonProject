@@ -22,8 +22,8 @@ public class KnightBehaviour : Hero
             curRoom.GetComponentInChildren<Monster>().Hurt(damage);
             attackCount++;
             skillCooldown.fillAmount = attackCount * 0.25f;
+            SoundManager.soundManager.SFXplayer("Slash_2", clip);
             Passive_Skill();
-            
         }
     }
 

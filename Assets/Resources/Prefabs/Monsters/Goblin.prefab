@@ -116,3 +116,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8049474300677519338, guid: 4a3f11bc5efa634418697ed93691d46e, type: 3}
   m_PrefabInstance: {fileID: 5810566832182254990}
   m_PrefabAsset: {fileID: 0}
+  hp: 0
+  attributes: 0
+  damage: 0
+  defense: 0
+  Deathclip: {fileID: 0}
+  clip: {fileID: 8300000, guid: be0da7ef305554640ab224cc44a5a836, type: 3}
+  curRoom: {fileID: 0}
+  isDie: 0
+  skill: {fileID: 8300000, guid: a58926f87dcfe0844976674201c1fea1, type: 3}

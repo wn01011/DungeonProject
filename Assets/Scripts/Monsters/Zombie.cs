@@ -28,6 +28,7 @@ public class Zombie : Monster
         if (target)
         {
             target.Hurt(damage, target.defense);
+            SoundManager.soundManager.SFXplayer("ZombieAtk", clip);
             //Passive_Skill();
         }
     }
@@ -44,6 +45,10 @@ public class Zombie : Monster
     protected override void Passive_Skill()
     {
         //Àç»ý·Â
+        if (hp < maxHp)
+            hp += Time.deltaTime * 0.2f;
+    }
+}
         if (hp < maxHp)
             hp += Time.deltaTime * 0.2f;
     }

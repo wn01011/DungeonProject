@@ -116,10 +116,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4fc3bf13c4b32b478625a3b6f1f1a18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DeathclipName: SkeletonDeath
   hp: 0
   attributes: 0
   damage: 0
   defense: 0
+  Deathclip: {fileID: 8300000, guid: 88aeadc42b44a724f935d2625af742fe, type: 3}
+  clip: {fileID: 8300000, guid: be0da7ef305554640ab224cc44a5a836, type: 3}
   curRoom: {fileID: 0}
   isDie: 0
 --- !u!65 &3214812888291047103

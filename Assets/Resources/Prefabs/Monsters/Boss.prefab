@@ -134,9 +134,12 @@ MonoBehaviour:
   attributes: 0
   damage: 0
   defense: 0
-  spawnManager: {fileID: 0}
+  Deathclip: {fileID: 0}
+  clip: {fileID: 8300000, guid: badcf988a5a327e44aa210687e518407, type: 3}
   curRoom: {fileID: 0}
   isDie: 0
+  skill_1: {fileID: 8300000, guid: 8f14c9f162be18344b908f4a8d56bc93, type: 3}
+  skill_2: {fileID: 8300000, guid: 6b2fd351646a5384583874abe8ff569a, type: 3}
   bossDie: 0
   Tornado: {fileID: 5059286700990855435, guid: 6459d683f53f90e49bde73186e25b524, type: 3}
   DarkLightning: {fileID: 8527807956935032002, guid: 9de8df6fb352e2f439fbfee29545d4ef, type: 3}

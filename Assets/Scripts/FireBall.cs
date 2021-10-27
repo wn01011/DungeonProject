@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 public class FireBall : MonoBehaviour, IPointerDownHandler
 {
+    public AudioClip clip;
 
     void Start()
     {
@@ -65,7 +66,10 @@ public class FireBall : MonoBehaviour, IPointerDownHandler
     {
         curMp += 2f;
     }
-
+    public void MP_absorb()
+    {
+        curMp += 2f;
+    }
     private void HandleMP()
     {
         mncMp = (float)curMp / (float)maxMp;
@@ -92,6 +96,7 @@ public class FireBall : MonoBehaviour, IPointerDownHandler
         Vector3 mPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mPosition.z = 0f;
         GameObject myfireball = Instantiate(fireball, mPosition, Quaternion.identity);
+        SoundManager.soundManager.SFXplayer("Fireball", clip);
         yield return new WaitForSeconds(animator.runtimeAnimatorController.animationClips[0].length);
         Destroy(myfireball);
     }

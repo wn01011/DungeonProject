@@ -242,13 +242,13 @@ public class EventSystemManager : MonoBehaviour, IPointerDownHandler
             case 0:
                 {
                     monsterNum = 2 * roomNum;
-                    newSpawnPos = new Vector3(0.9f, -0.5f);
+                    newSpawnPos = new Vector3(0.8f, -0.65f);
                 }
                 break;
             case 1:
                 {
                     monsterNum = 2 * roomNum + 1;
-                    newSpawnPos = new Vector3(1.2f, -0.5f);
+                    newSpawnPos = new Vector3(1.2f, -0.65f);
                 }
                 break;
             default:

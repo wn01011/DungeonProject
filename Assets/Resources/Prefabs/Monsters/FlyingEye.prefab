@@ -114,3 +114,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 822124146586972621, guid: 8efcd1e0d11fd5e4dab8350067a2fe02, type: 3}
   m_PrefabInstance: {fileID: 9013514749007310718}
   m_PrefabAsset: {fileID: 0}
+  m_EditorClassIdentifier: 
+  DeathclipName: FlyingEyeDeath
+  hp: 0
+  attributes: 0
+  damage: 0
+  defense: 0
+  Deathclip: {fileID: 8300000, guid: d1bb363feaf2d4e01b5d111f074572f6, type: 3}
+  clip: {fileID: 8300000, guid: ffbab3032f7a085428faa5de7befab76, type: 3}
+  curRoom: {fileID: 0}
+  isDie: 0
+  skill: {fileID: 8300000, guid: fdef22e916d331646939c9ac1492bb48, type: 3}

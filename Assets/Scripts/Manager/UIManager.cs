@@ -168,11 +168,13 @@ public class UIManager : MonoBehaviourPunCallbacks
     {
         RoomColArraySetActive(false);
         ButtonClick(unitBtn);
+        SoundManager.soundManager.SFXplayer("unitBtn", panelclip);
     }
     public void bulidBtnClick()
     {
         RoomColArraySetActive(false);
         ButtonClick(buildBtn);
+        SoundManager.soundManager.SFXplayer("buildBtn", panelclip);
     }
     public void itemBtnClick()
     {
@@ -200,6 +202,7 @@ public class UIManager : MonoBehaviourPunCallbacks
     {
         RoomColArraySetActive(true);
         exitBtnPanel.SetActive(false);
+        SoundManager.soundManager.SFXplayer("SetMonsterPanel", panelclip);
     }
 
     public void DungeonMaintenanceBtn()
@@ -780,9 +783,10 @@ public class UIManager : MonoBehaviourPunCallbacks
 
     #endregion
 
-
     #region variables
 
+    #region variables
+    protected MonsterUpgradeCost zombieUpgradeCost = new MonsterUpgradeCost();
     public MonsterUpgradeCost skeletonUpgradeCost = new MonsterUpgradeCost();
     public MonsterUpgradeCost zombieUpgradeCost = new MonsterUpgradeCost();
     public MonsterUpgradeCost goblinUpgradeCost = new MonsterUpgradeCost();
@@ -793,7 +797,12 @@ public class UIManager : MonoBehaviourPunCallbacks
 
     public GameObject cursor = null;
     private Sprite cursorSprite = null;
-    
+    private bool isBtnClick = false;
+    private WaitForSeconds waitForSeconds = new WaitForSeconds(0.1f);
+    private List<Button> btnList = new List<Button>();
+    private List<GameObject> panelList = new List<GameObject>();
+    private Text[] upgradeText = null;
+
     protected int magicRoomUpgradeCost = 0;
     protected int skullHarvestRoomUpgradeCost = 0;
 
@@ -842,5 +851,7 @@ public class UIManager : MonoBehaviourPunCallbacks
     [SerializeField] private Text[] defText = null;
     [SerializeField] private Text[] hpText = null;
     
+    #endregion
+    [SerializeField] private AudioClip panelclip = null;
     #endregion
 }

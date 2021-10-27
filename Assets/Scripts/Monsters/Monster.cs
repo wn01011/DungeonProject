@@ -88,6 +88,7 @@ abstract public class Monster : MonoBehaviour
         isDie = true;
         animator.SetTrigger("Die");
         transform.parent = spawnManager.transform;
+        SoundManager.soundManager.SFXplayer(DeathclipName, Deathclip);
         StartCoroutine(DieWait());
     }
     private IEnumerator DieWait()
@@ -159,6 +160,7 @@ abstract public class Monster : MonoBehaviour
     protected GameManager gameManager = null;
     protected SpawnManager spawnManager = null;
 
+    [SerializeField] protected string DeathclipName = null;
     [SerializeField] protected float hp =0f;
                      protected float maxHp = 0f;
     [SerializeField] protected int attributes = 0;
@@ -168,6 +170,8 @@ abstract public class Monster : MonoBehaviour
 
     private Vector3 waitPos = Vector3.right * 100f;
 
+    public AudioClip Deathclip;
+    public AudioClip clip;
     public GameObject curRoom = null;
     private Ray ray = new Ray();
     private RaycastHit raycastHit = new RaycastHit();

@@ -16,6 +16,7 @@ public class BanditBehaviour : Hero
         if(curRoom && curRoom.GetComponentInChildren<Monster>())
         {
             curRoom.GetComponentInChildren<Monster>().Hurt(damage);
+            SoundManager.soundManager.SFXplayer("Slash_2", clip);
             Passive_Skill();
         }
     }

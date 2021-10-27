@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Goblin : Monster
 {
+    public AudioClip skill = null;
     public static float static_maxHp = 30f;
     public static float staticDmg = 3f;
     public static float staticDef = 2f;
@@ -19,7 +20,7 @@ public class Goblin : Monster
     }
     protected void Update()
     {
-        critical_hit = Random.Range(0, 4);
+        critical_hit = Random.Range(0, 5);
         maxHp = static_maxHp;
         damage = staticDmg;
         defense = staticDef;
@@ -27,16 +28,15 @@ public class Goblin : Monster
     protected override void Attack()
     {
         Hero target = curRoom.GetComponentInChildren<Hero>();
-        if (target)
+        if (target && (critical_hit == 0))
         {
-            target.Hurt(damage,target.defense);
             Passive_Skill();
         }
-    }
-    public void SetStaticHp()
-    {
-        maxHp = static_maxHp;
-        hp = static_maxHp;
+        else if (target)
+        {
+            target.Hurt(damage, target.defense);
+            SoundManager.soundManager.SFXplayer("GolbinAtk", clip);
+        }
     }
     protected override void Active_Skill()
     {
@@ -47,10 +47,10 @@ public class Goblin : Monster
     {
         Hero target = curRoom.GetComponentInChildren<Hero>();
         //공격시 20% 확률로 데미지2배
-        if (critical_hit == 0)
-        {
-            animator.SetTrigger("Skill");
-            target.Hurt(damage * 2, target.defense);
-        }
+        animator.SetTrigger("Skill");
+        target.Hurt(damage * 2, target.defense);
+        SoundManager.soundManager.SFXplayer("GolbinCritical", skill);
+    }
+}
     }
 }
