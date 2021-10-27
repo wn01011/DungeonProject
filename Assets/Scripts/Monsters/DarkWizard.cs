@@ -4,17 +4,19 @@ using UnityEngine;
 
 public class DarkWizard : Monster
 {
-    public static float static_maxHp = 40f;
-    public static float staticDmg = 5f;
-    public static float staticDef = 1f;
+    public static float static_maxHp = 50f;
+    public static float staticDmg = 6f;
+    public static float staticDef = 3f;
+    [SerializeField] private FireBall fireBall = null;
 
     protected override void Start()
     {
         base.Start();
-        hp = 40f;
+        hp = 50f;
         maxHp = hp;
-        damage = 5f;
-        defense = 1f;
+        damage = 6f;
+        defense = 3f;
+        fireBall = FindObjectOfType<FireBall>();
     }
     protected void Update()
     {
@@ -31,6 +33,11 @@ public class DarkWizard : Monster
             Passive_Skill();
         }
     }
+    public void SetStaticHp()
+    {
+        maxHp = static_maxHp;
+        hp = static_maxHp;
+    }
     protected override void Active_Skill()
     {
 
@@ -39,7 +46,6 @@ public class DarkWizard : Monster
     protected override void Passive_Skill()
     {
         //적 공격시 마왕 MP회복
-        FireBall fireball = GetComponent<FireBall>();
-        fireball.MP_absorb();
+        fireBall.MP_absorb();
     }
 }

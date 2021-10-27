@@ -48,8 +48,8 @@ public class HPcontrol : MonoBehaviour
         }
         if(monsterSpawn)
             HandleHP();
-
     }
+
     private void HpBarMaker()
     {
         m_cam = Camera.main;

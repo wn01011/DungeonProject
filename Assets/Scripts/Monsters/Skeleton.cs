@@ -9,13 +9,6 @@ public class Skeleton : Monster
     public static float staticDef = 0f;
     private float poisonDmg = 0.2f;
 
-    protected void Update()
-    {
-        maxHp = static_maxHp;
-        damage = staticDmg;
-        defense = staticDef;
-    }
-
     protected override void Start()
     {
         base.Start();
@@ -24,6 +17,14 @@ public class Skeleton : Monster
         damage = 1f;
         defense = 0f;
     }
+
+    protected void Update()
+    {
+        maxHp = static_maxHp;
+        damage = staticDmg;
+        defense = staticDef;
+    }
+
     protected override void Attack()
     {
         Hero target = curRoom.GetComponentInChildren<Hero>();
@@ -45,7 +46,11 @@ public class Skeleton : Monster
         if (target)
             StartCoroutine(poisonAttack(target));
     }
-
+    public void SetStaticHp()
+    {
+        maxHp = static_maxHp;
+        hp = static_maxHp;
+    }
     private IEnumerator poisonAttack(Hero _targetHero)
     {
         float duration = 10f;

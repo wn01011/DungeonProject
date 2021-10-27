@@ -5,7 +5,7 @@ using UnityEngine;
 public class Boss : Monster
 {
     public static float static_maxHp = 50f;
-    public static float staticDmg = 2f;
+    public static float staticDmg = 5f;
     public static float staticDef = 0f;
     public bool bossDie = false;
 
@@ -48,6 +48,11 @@ public class Boss : Monster
             target.Hurt(damage,target.defense);
             Active_Skill();
         }
+    }
+    public void SetStaticHp()
+    {
+        maxHp = static_maxHp;
+        hp = static_maxHp;
     }
     private IEnumerator Boss_SKill()
     {

@@ -26,7 +26,7 @@ public class SpawnManager : MonoBehaviour
     //room(,)    room(,)    room(,)
     //room(,)    room(,)    room(,)
     //boss
-    private monsterType[] spawn = new monsterType[]
+    public monsterType[] spawn = new monsterType[]
     {
         monsterType.skeleton, monsterType.skeleton,             monsterType.skeleton, monsterType.skeleton,             monsterType.skeleton, monsterType.skeleton,
         monsterType.skeleton, monsterType.skeleton,             monsterType.skeleton, monsterType.skeleton,             monsterType.skeleton, monsterType.skeleton,
@@ -46,6 +46,10 @@ public class SpawnManager : MonoBehaviour
         monsterCount = spawn.Length;
         heroCount = heroSpawn.Length;
         skeleton = Resources.Load<GameObject>("Prefabs\\Monsters\\SkeletonWarrior");
+        zombie = Resources.Load<GameObject>("Prefabs\\Monsters\\Zombie");
+        goblin = Resources.Load<GameObject>("Prefabs\\Monsters\\Goblin");
+        flyingEye = Resources.Load<GameObject>("Prefabs\\Monsters\\FlyingEye");
+        darkWizard = Resources.Load<GameObject>("Prefabs\\Monsters\\DarkWizard");
         deathbringer = Resources.Load<GameObject>("Prefabs\\Monsters\\DeathBringer");
         knight = Resources.Load<GameObject>("Prefabs\\Heroes\\Knight");
         bandit = Resources.Load<GameObject>("Prefabs\\Heroes\\Bandit");
@@ -64,7 +68,14 @@ public class SpawnManager : MonoBehaviour
         MonsterPositioning();
         StartCoroutine(heroWave());
     }
-
+    public void SpawnMapping()
+    {
+        //GameManager에서 PlayerPrefs에서 가져온 spawnMappingArray를 동기화 시켜줌
+        for (int i = 0; i < spawn.Length; ++i)
+        {
+            spawn[i] = (monsterType)gameManager.spawnMappingArray[i];
+        }
+    }
     private GameObject MonsterSelection(monsterType _monsterType)
     {
         switch (_monsterType)
@@ -73,6 +84,14 @@ public class SpawnManager : MonoBehaviour
                 return null;
             case monsterType.skeleton:
                 return skeleton;
+            case monsterType.zombie:
+                return zombie;
+            case monsterType.goblin:
+                return goblin;
+            case monsterType.flyingeye:
+                return flyingEye;
+            case monsterType.darkwizard:
+                return darkWizard;
             case monsterType.deathbringer:
                 return deathbringer;
             case monsterType.boss:
@@ -216,6 +235,10 @@ public class SpawnManager : MonoBehaviour
    
 
     private GameObject skeleton = null;
+    private GameObject zombie = null;
+    private GameObject goblin = null;
+    private GameObject flyingEye = null;
+    private GameObject darkWizard = null;
     private GameObject deathbringer = null;
     private GameObject knight = null;
     private GameObject bandit = null;

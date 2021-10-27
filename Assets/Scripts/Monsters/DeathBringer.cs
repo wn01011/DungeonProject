@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DeathBringer : Monster
 {
-    public static float static_maxHp = 30f;
+    public static float static_maxHp = 60f;
     public static float staticDmg = 8f;
     public static float staticDef = 5f;
 
@@ -40,6 +40,11 @@ public class DeathBringer : Monster
             target.Hurt(damage, target.defense);
             Passive_Skill();
         }
+    }
+    public void SetStaticHp()
+    {
+        maxHp = static_maxHp;
+        hp = static_maxHp;
     }
     private IEnumerator Skill()
     {

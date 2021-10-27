@@ -159,7 +159,6 @@ public class EventSystemManager : MonoBehaviour, IPointerDownHandler
     //마지막으로 실제로 바꿔주는 작업을 실행함
     public void ChangeBtn()
     {
-
         int monsterNum = 0;
         int price = 0;
         
@@ -234,6 +233,7 @@ public class EventSystemManager : MonoBehaviour, IPointerDownHandler
             default:
                 break;
         }
+
         //방의 첫번째 배치와 두번째 배치가 달라지기 때문에 monsterNum을 아래와 같이 지정해주고 후에 spawnManger의 ChangeMonsterSpawnMap() 함수를 통해 맵핑에 반영해준다.
         //이 monsterNum은 또 hpBar를 해당 몬스터에 다시 할당하는데 필요하다.
         // 0 : 방의 첫번째 자리, 1 : 방의 두번째 자리

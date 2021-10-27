@@ -107,7 +107,9 @@ abstract public class Hero : MonoBehaviour
     protected void Dead()
     {
         if (isDie) return;
-        gameManager.goods.bone += 10;
+        gameManager.goods.bone += 50 * GameManager.wave + gameManager.goodsCollectAdjust;
+        gameManager.goods.tear += 50 * GameManager.wave + gameManager.goodsCollectAdjust;
+        gameManager.goods.soulgem += 50 * GameManager.wave + gameManager.goodsCollectAdjust;
         isMove = false;
         transform.position = waitPos;
         transform.parent = spawnManager.transform;
@@ -128,33 +130,6 @@ abstract public class Hero : MonoBehaviour
         curRoom = null;
     }
     
-    public void ReStart()
-    {
-        #region restart initialization
-
-        maxHp = 10 + GameManager.wave * 5;
-        damage = GameManager.wave;
-        defense = GameManager.wave;
-        
-        SetHp();
-        isDie = false;
-        moveStart = false;
-        isMove = true;
-        isAttack = false;
-        roomLock = false;
-        curRoom = null;
-        animator.SetTrigger("ReStart");
-        transform.position = waitPos;
-        heroSr.color = Color.white;
-
-        #endregion
-
-        StopAllCoroutines();
-        StartCoroutine(heroMoveAlgorithm());
-        StartCoroutine(RoomCheck());
-        StartCoroutine(roomMonsterCheck());
-    }
-
     #region Hero Move
 
     #region MoveToward Functions
@@ -236,6 +211,32 @@ abstract public class Hero : MonoBehaviour
     }
 
     #endregion
+    public void ReStart()
+    {
+        #region restart initialization
+
+        maxHp = 10 + GameManager.wave * 5;
+        damage = GameManager.wave * 2;
+        defense = GameManager.wave;
+        
+        SetHp();
+        isDie = false;
+        moveStart = false;
+        isMove = true;
+        isAttack = false;
+        roomLock = false;
+        curRoom = null;
+        animator.SetTrigger("ReStart");
+        transform.position = waitPos;
+        heroSr.color = Color.white;
+
+        #endregion
+
+        StopAllCoroutines();
+        StartCoroutine(heroMoveAlgorithm());
+        StartCoroutine(RoomCheck());
+        StartCoroutine(roomMonsterCheck());
+    }
 
     //현재 있는 방을 해당 히어로 위치에 raycast를 쏴서 판별함
     private IEnumerator RoomCheck()
@@ -294,7 +295,7 @@ abstract public class Hero : MonoBehaviour
     }
 
 
-    #region values
+    #region variables
 
     protected Animator animator = null;
     protected Rigidbody2D heroRb = null;

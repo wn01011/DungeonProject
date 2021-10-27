@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class FlyingEye : Monster
 {
-    public static float static_maxHp = 20f;
-    public static float staticDmg = 10f;
-    public static float staticDef = 0f;
+    public static float static_maxHp = 40f;
+    public static float staticDmg = 5f;
+    public static float staticDef = 2f;
     public int evasion_count = 0;
 
     protected override void Start()
     {
         base.Start();
-        hp = 20f;
+        hp = 40f;
         maxHp = hp;
-        damage = 10f;
-        defense = 0f;
+        damage = 5f;
+        defense = 2f;
     }
     protected void Update()
     {
@@ -34,7 +34,11 @@ public class FlyingEye : Monster
         else
             target.Hurt(damage, target.defense);
     }
-
+    public void SetStaticHp()
+    {
+        maxHp = static_maxHp;
+        hp = static_maxHp;
+    }
     protected override void Active_Skill()
     {
 
