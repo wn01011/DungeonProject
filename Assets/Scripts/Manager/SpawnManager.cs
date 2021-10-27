@@ -8,6 +8,10 @@ public class SpawnManager : MonoBehaviour
     {
         blank,
         skeleton,
+        zombie,
+        goblin,
+        flyingeye,
+        darkwizard,
         deathbringer,
         boss
     }
@@ -24,9 +28,9 @@ public class SpawnManager : MonoBehaviour
     //boss
     private monsterType[] spawn = new monsterType[]
     {
-        monsterType.skeleton, monsterType.deathbringer,             monsterType.skeleton, monsterType.deathbringer,             monsterType.skeleton, monsterType.deathbringer,
-        monsterType.skeleton, monsterType.skeleton,                 monsterType.skeleton, monsterType.deathbringer,             monsterType.skeleton, monsterType.deathbringer,
-        monsterType.skeleton, monsterType.deathbringer,             monsterType.skeleton, monsterType.deathbringer,             monsterType.skeleton, monsterType.deathbringer,
+        monsterType.skeleton, monsterType.skeleton,             monsterType.skeleton, monsterType.skeleton,             monsterType.skeleton, monsterType.skeleton,
+        monsterType.skeleton, monsterType.skeleton,             monsterType.skeleton, monsterType.skeleton,             monsterType.skeleton, monsterType.skeleton,
+        monsterType.skeleton, monsterType.skeleton,             monsterType.skeleton, monsterType.skeleton,             monsterType.skeleton, monsterType.skeleton,
         monsterType.boss
     };
     //hero spawn Mapping
@@ -145,15 +149,15 @@ public class SpawnManager : MonoBehaviour
             else
             {
                 monsterList[2 * i-blankJumpCount].transform.parent = rooms[i].transform;
-                monsterList[2 * i-blankJumpCount].transform.localPosition = new Vector3(0.9f, -0.5f);
+                monsterList[2 * i-blankJumpCount].transform.localPosition = new Vector3(0.8f, -0.65f);
                 monsterList[2 * (i - blankJumpCount) + 1].transform.parent = rooms[i].transform;
-                monsterList[2 * (i - blankJumpCount) + 1].transform.localPosition = new Vector3(1.2f, -0.5f);
+                monsterList[2 * (i - blankJumpCount) + 1].transform.localPosition = new Vector3(1.2f, -0.65f);
             }
         }
         //bossPositioning
         {
             monsterList[monsterList.Count-1].transform.parent = rooms[rooms.Length - 1].transform;
-            monsterList[monsterList.Count-1].transform.localPosition = bossPos;
+            monsterList[monsterList.Count-1].transform.localPosition = bossPos + (Vector3.up*0.2f);
         }
     }
     public void Restart()
@@ -208,13 +212,15 @@ public class SpawnManager : MonoBehaviour
     {
         spawn[_aryNum] = _target;
     }
-    
-    
+
+   
 
     private GameObject skeleton = null;
     private GameObject deathbringer = null;
+
     private GameObject knight = null;
     private GameObject bandit = null;
+
     private GameObject boss = null;
 
     private int monsterCount = 0;

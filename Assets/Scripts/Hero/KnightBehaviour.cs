@@ -12,6 +12,7 @@ public class KnightBehaviour : Hero
         hp = 10f;
         maxHp = hp;
         damage = 2f;
+        defense = 1f;
     }
 
     protected override void Attack()
@@ -21,8 +22,8 @@ public class KnightBehaviour : Hero
             curRoom.GetComponentInChildren<Monster>().Hurt(damage);
             attackCount++;
             skillCooldown.fillAmount = attackCount * 0.25f;
+            SoundManager.soundManager.SFXplayer("Slash_2", clip);
             Passive_Skill();
-            
         }
     }
 

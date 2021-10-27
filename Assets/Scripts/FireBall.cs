@@ -7,6 +7,7 @@ public class FireBall : MonoBehaviour, IPointerDownHandler
 {
     [SerializeField] Slider Mp_bar = null;
 
+    public AudioClip clip;
     public GameObject fireball = null;
     private Animator animator = null;
 
@@ -56,7 +57,10 @@ public class FireBall : MonoBehaviour, IPointerDownHandler
                curMp += Time.deltaTime * 2f;
           }
     }
-
+    public void MP_absorb()
+    {
+        curMp += 2f;
+    }
     private void HandleMP()
     {
         mncMp = (float)curMp / (float)maxMp;
@@ -83,6 +87,7 @@ public class FireBall : MonoBehaviour, IPointerDownHandler
         Vector3 mPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mPosition.z = 0f;
         GameObject myfireball = Instantiate(fireball, mPosition, Quaternion.identity);
+        SoundManager.soundManager.SFXplayer("Fireball", clip);
         yield return new WaitForSeconds(animator.runtimeAnimatorController.animationClips[0].length);
         Destroy(myfireball);
     }

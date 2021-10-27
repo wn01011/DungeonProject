@@ -52,17 +52,20 @@ public class TitleManager : MonoBehaviour
     #region BtnManage
     public void StartBtn()
     {
+        SoundManager.soundManager.SFXplayer("StartBtn", clip);
         networkPanel.SetActive(true);
         netWorkManager.Connect();
         netWorkManager.JoinLobby();
+
     }
     public void OptionBtn()
     {
+        SoundManager.soundManager.SFXplayer("OptionBtn", clip);
         ResolutionPanel.SetActive(true);
     }
     public void ExitBtn()
     {
-        
+        SoundManager.soundManager.SFXplayer("ExitBtn", clip);
     }
     #endregion
 
@@ -101,6 +104,7 @@ public class TitleManager : MonoBehaviour
     {
         ResolutionPanel.SetActive(false);
         Screen.SetResolution(resolutions[resolutionNum].width, resolutions[resolutionNum].height, screenMode);
+        SoundManager.soundManager.SFXplayer("AcceptBtn", clip);
     }
     public void FullScreenBtn(bool isFull)
     {
@@ -115,8 +119,10 @@ public class TitleManager : MonoBehaviour
     [SerializeField] private GameObject ResolutionPanel = null;
     [SerializeField] private Toggle fullscreenBtn = null;
     [SerializeField] private NetWorkManager netWorkManager = null;
+
     List<Resolution> resolutions = new List<Resolution>();
     public Dropdown resolutionDropdown;
+    public AudioClip clip = null;
     private int resolutionNum = 0;
     FullScreenMode screenMode = FullScreenMode.ExclusiveFullScreen;
     private Text text = null;

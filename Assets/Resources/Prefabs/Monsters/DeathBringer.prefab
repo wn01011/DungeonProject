@@ -94,7 +94,7 @@ Animator:
   m_GameObject: {fileID: 964830837677174868}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 3ff35d7e1637aca4db7e9e2df0e96cca, type: 2}
+  m_Controller: {fileID: 9100000, guid: c45bf2579c8582248ad608ad7cc5e2e3, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -160,9 +160,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 615ffba9cf5015d40bf24e0c9e8edddb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DeathclipName: DeathbringerDeath
   hp: 0
   attributes: 0
   damage: 0
-  spawnManager: {fileID: 0}
+  defense: 0
+  Deathclip: {fileID: 8300000, guid: efc4a9b7c160b18408563c966fa5d77a, type: 3}
+  clip: {fileID: 8300000, guid: bab32b8b6afde9a40b4b501a642ba9d2, type: 3}
   curRoom: {fileID: 0}
   isDie: 0
+  skillclip: {fileID: 8300000, guid: 36a16ac6694b286418d7240fdf03fc63, type: 3}
+  DeathBlow: {fileID: 5337351091488191553, guid: 883f9a01beb37d8458d3ac3afb55f3cb, type: 3}

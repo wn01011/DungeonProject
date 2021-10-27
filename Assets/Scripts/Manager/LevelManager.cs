@@ -96,7 +96,7 @@ public class LevelManager : MonoBehaviour
         {
             GameObject room = roomQueue.Peek();
             height = lastRoomYPos - room.GetComponent<Collider>().bounds.size.y;
-            room.transform.localPosition = new Vector3(0f, height + 0.7f, 0f);
+            room.transform.localPosition = new Vector3(0f, height + 0.85f, 0f);
             roomQueue.Dequeue();
         }
 
