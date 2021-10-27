@@ -5,7 +5,7 @@ using UnityEngine;
 public class Zombie : Monster
 {
     public static float static_maxHp = 20f;
-    public static float staticDmg = 1f;
+    public static float staticDmg = 2f;
     public static float staticDef = 1f;
 
     protected override void Start()
@@ -13,7 +13,7 @@ public class Zombie : Monster
         base.Start();
         hp = 20f;
         maxHp = hp;
-        damage = 1f;
+        damage = 2f;
         defense = 1f;
     }
     protected void Update()
@@ -30,6 +30,11 @@ public class Zombie : Monster
             target.Hurt(damage, target.defense);
             //Passive_Skill();
         }
+    }
+    public void SetStaticHp()
+    {
+        maxHp = static_maxHp;
+        hp = static_maxHp;
     }
     protected override void Active_Skill()
     {

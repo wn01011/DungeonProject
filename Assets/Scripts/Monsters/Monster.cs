@@ -6,12 +6,17 @@ abstract public class Monster : MonoBehaviour
 {
     protected virtual void Start()
     {
+        #region Initialization
+
         animator = GetComponentInChildren<Animator>();
         monsterRb = GetComponentInChildren<Rigidbody2D>();
         monsterSr = GetComponentInChildren<SpriteRenderer>();
         tempColor = monsterSr.color;
         spawnManager = FindObjectOfType<SpawnManager>();
         gameManager = FindObjectOfType<GameManager>();
+        
+        #endregion
+
         StartCoroutine(RoomCheck());
         StartCoroutine(RoomHeroCheck());
     }
@@ -116,7 +121,7 @@ abstract public class Monster : MonoBehaviour
         yield return new WaitUntil(() => curRoom != null);
         while (true)
         {
-            if(!curRoom.GetComponentInChildren<Hero>())
+            if(!curRoom ||!curRoom.GetComponentInChildren<Hero>())
             {
                 yield return new WaitForEndOfFrame();
                 continue;
@@ -145,6 +150,8 @@ abstract public class Monster : MonoBehaviour
         StartCoroutine(RoomHeroCheck());
     }
 
+    #region variables
+
     protected Animator animator;
     protected Rigidbody2D monsterRb;
     protected SpriteRenderer monsterSr;
@@ -169,5 +176,7 @@ abstract public class Monster : MonoBehaviour
     private bool isHurtColor = false;
 
     private Color tempColor = Color.white;
+    
+    #endregion
 }
 

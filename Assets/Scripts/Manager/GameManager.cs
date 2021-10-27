@@ -19,7 +19,6 @@ public class GameManager : MonoBehaviourPunCallbacks
             this.soulgem = _soulgem;
         }
     }
-   
 
     private void Start()
     {
@@ -34,29 +33,65 @@ public class GameManager : MonoBehaviourPunCallbacks
         Skeleton.staticDef = PlayerPrefs.GetFloat(PhotonNetwork.LocalPlayer.NickName + "SkeletonDef", 0f);
         Skeleton.static_maxHp = PlayerPrefs.GetFloat(PhotonNetwork.LocalPlayer.NickName + "SkeletonHp", 10f);
 
-        Zombie.staticDmg = PlayerPrefs.GetFloat(PhotonNetwork.LocalPlayer.NickName + "ZombieDmg", 1f);
+        uiManager.skeletonUpgradeCost.boneCost = PlayerPrefs.GetInt(PhotonNetwork.LocalPlayer.NickName + "SkeletonBones", 100);
+        uiManager.skeletonUpgradeCost.tearCost = PlayerPrefs.GetInt(PhotonNetwork.LocalPlayer.NickName + "SkeletonTears", 100);
+        uiManager.skeletonUpgradeCost.soulgemCost = PlayerPrefs.GetInt(PhotonNetwork.LocalPlayer.NickName + "SkeletonSoulGem", 100);
+
+        Zombie.staticDmg = PlayerPrefs.GetFloat(PhotonNetwork.LocalPlayer.NickName + "ZombieDmg", 2f);
         Zombie.staticDef = PlayerPrefs.GetFloat(PhotonNetwork.LocalPlayer.NickName + "ZombieDef", 1f);
         Zombie.static_maxHp = PlayerPrefs.GetFloat(PhotonNetwork.LocalPlayer.NickName + "ZombieHp", 20f);
 
-        FlyingEye.staticDmg = PlayerPrefs.GetFloat(PhotonNetwork.LocalPlayer.NickName + "FlyingEyeDmg", 10f);
-        FlyingEye.staticDef = PlayerPrefs.GetFloat(PhotonNetwork.LocalPlayer.NickName + "FlyingEyeDef", 0f);
-        FlyingEye.static_maxHp = PlayerPrefs.GetFloat(PhotonNetwork.LocalPlayer.NickName + "FlyingEyeHp", 20f);
+        uiManager.zombieUpgradeCost.boneCost = PlayerPrefs.GetInt(PhotonNetwork.LocalPlayer.NickName + "ZombieBones", 100);
+        uiManager.zombieUpgradeCost.tearCost = PlayerPrefs.GetInt(PhotonNetwork.LocalPlayer.NickName + "ZombieTears", 100);
+        uiManager.zombieUpgradeCost.soulgemCost = PlayerPrefs.GetInt(PhotonNetwork.LocalPlayer.NickName + "ZombieSoulGem", 100);
+
+        FlyingEye.staticDmg = PlayerPrefs.GetFloat(PhotonNetwork.LocalPlayer.NickName + "FlyingEyeDmg", 5f);
+        FlyingEye.staticDef = PlayerPrefs.GetFloat(PhotonNetwork.LocalPlayer.NickName + "FlyingEyeDef", 2f);
+        FlyingEye.static_maxHp = PlayerPrefs.GetFloat(PhotonNetwork.LocalPlayer.NickName + "FlyingEyeHp", 40f);
+
+        uiManager.flyingEyeUpgradeCost.boneCost = PlayerPrefs.GetInt(PhotonNetwork.LocalPlayer.NickName + "FlyingEyeBones", 100);
+        uiManager.flyingEyeUpgradeCost.tearCost = PlayerPrefs.GetInt(PhotonNetwork.LocalPlayer.NickName + "FlyingEyeTears", 100);
+        uiManager.flyingEyeUpgradeCost.soulgemCost = PlayerPrefs.GetInt(PhotonNetwork.LocalPlayer.NickName + "FlyingEyeSoulGem", 100);
 
         Goblin.staticDmg = PlayerPrefs.GetFloat(PhotonNetwork.LocalPlayer.NickName + "GoblinDmg", 3f);
-        Goblin.staticDef = PlayerPrefs.GetFloat(PhotonNetwork.LocalPlayer.NickName + "GoblinDef", 0f);
-        Goblin.static_maxHp = PlayerPrefs.GetFloat(PhotonNetwork.LocalPlayer.NickName + "GoblinHp", 15f);
+        Goblin.staticDef = PlayerPrefs.GetFloat(PhotonNetwork.LocalPlayer.NickName + "GoblinDef", 2f);
+        Goblin.static_maxHp = PlayerPrefs.GetFloat(PhotonNetwork.LocalPlayer.NickName + "GoblinHp", 30f);
 
-        DarkWizard.staticDmg = PlayerPrefs.GetFloat(PhotonNetwork.LocalPlayer.NickName + "DarkWizardDmg", 5f);
-        DarkWizard.staticDef = PlayerPrefs.GetFloat(PhotonNetwork.LocalPlayer.NickName + "DarkWizardDef", 1f);
-        DarkWizard.static_maxHp = PlayerPrefs.GetFloat(PhotonNetwork.LocalPlayer.NickName + "DarkWizardHp", 40f);
+        uiManager.goblinUpgradeCost.boneCost = PlayerPrefs.GetInt(PhotonNetwork.LocalPlayer.NickName + "GoblinBones", 100);
+        uiManager.goblinUpgradeCost.tearCost = PlayerPrefs.GetInt(PhotonNetwork.LocalPlayer.NickName + "GoblinTears", 100);
+        uiManager.goblinUpgradeCost.soulgemCost = PlayerPrefs.GetInt(PhotonNetwork.LocalPlayer.NickName + "GoblinSoulGem", 100);
+
+        DarkWizard.staticDmg = PlayerPrefs.GetFloat(PhotonNetwork.LocalPlayer.NickName + "DarkWizardDmg", 6f);
+        DarkWizard.staticDef = PlayerPrefs.GetFloat(PhotonNetwork.LocalPlayer.NickName + "DarkWizardDef", 3f);
+        DarkWizard.static_maxHp = PlayerPrefs.GetFloat(PhotonNetwork.LocalPlayer.NickName + "DarkWizardHp", 50f);
+
+        uiManager.darkWizardUpgradeCost.boneCost = PlayerPrefs.GetInt(PhotonNetwork.LocalPlayer.NickName + "DarkWizardBones", 100);
+        uiManager.darkWizardUpgradeCost.tearCost = PlayerPrefs.GetInt(PhotonNetwork.LocalPlayer.NickName + "DarkWizardTears", 100);
+        uiManager.darkWizardUpgradeCost.soulgemCost = PlayerPrefs.GetInt(PhotonNetwork.LocalPlayer.NickName + "DarkWizardSoulGem", 100);
 
         DeathBringer.staticDmg = PlayerPrefs.GetFloat(PhotonNetwork.LocalPlayer.NickName + "DeathBringerDmg", 8f);
         DeathBringer.staticDef = PlayerPrefs.GetFloat(PhotonNetwork.LocalPlayer.NickName + "DeathBringerDef", 5f);
-        DeathBringer.static_maxHp = PlayerPrefs.GetFloat(PhotonNetwork.LocalPlayer.NickName + "DeathBringerHp", 30f);
+        DeathBringer.static_maxHp = PlayerPrefs.GetFloat(PhotonNetwork.LocalPlayer.NickName + "DeathBringerHp", 60f);
 
-        Boss.staticDmg = PlayerPrefs.GetFloat(PhotonNetwork.LocalPlayer.NickName + "BossDmg", 2);
+        uiManager.deathBringerUpgradeCost.boneCost = PlayerPrefs.GetInt(PhotonNetwork.LocalPlayer.NickName + "DeathBringerBones", 100);
+        uiManager.deathBringerUpgradeCost.tearCost = PlayerPrefs.GetInt(PhotonNetwork.LocalPlayer.NickName + "DeathBringerTears", 100);
+        uiManager.deathBringerUpgradeCost.soulgemCost = PlayerPrefs.GetInt(PhotonNetwork.LocalPlayer.NickName + "DeathBringerSoulGem", 100);
+
+        Boss.staticDmg = PlayerPrefs.GetFloat(PhotonNetwork.LocalPlayer.NickName + "BossDmg", 5);
         Boss.staticDef = PlayerPrefs.GetFloat(PhotonNetwork.LocalPlayer.NickName + "BossDef", 0);
         Boss.static_maxHp = PlayerPrefs.GetFloat(PhotonNetwork.LocalPlayer.NickName + "BossHp", 50);
+
+        uiManager.bossUpgradeCost.boneCost = PlayerPrefs.GetInt(PhotonNetwork.LocalPlayer.NickName + "BossBones", 100);
+        uiManager.bossUpgradeCost.tearCost = PlayerPrefs.GetInt(PhotonNetwork.LocalPlayer.NickName + "BossTears", 100);
+        uiManager.bossUpgradeCost.soulgemCost = PlayerPrefs.GetInt(PhotonNetwork.LocalPlayer.NickName + "BossSoulGem", 100);
+
+        for(int i=0; i<spawnManager.spawn.Length - 1; ++i)
+        {
+            spawnMappingArray[i] = PlayerPrefs.GetInt(PhotonNetwork.LocalPlayer.NickName + "Spawn[" + i.ToString() + "]", 1);
+        }
+        spawnMappingArray[18] = PlayerPrefs.GetInt(PhotonNetwork.LocalPlayer.NickName + "Spawn[" + (spawnManager.spawn.Length - 1).ToString() + "]", 7);
+
+        spawnManager.SpawnMapping();
 
         #endregion
 
@@ -102,6 +137,11 @@ public class GameManager : MonoBehaviourPunCallbacks
         PlayerPrefs.SetFloat(PhotonNetwork.LocalPlayer.NickName + "BossDmg", Boss.staticDmg);
         PlayerPrefs.SetFloat(PhotonNetwork.LocalPlayer.NickName + "BossDef", Boss.staticDef);
         PlayerPrefs.SetFloat(PhotonNetwork.LocalPlayer.NickName + "BossHp", Boss.static_maxHp);
+
+        for(int i=0; i< spawnManager.spawn.Length; ++i)
+        {
+            PlayerPrefs.SetInt(PhotonNetwork.LocalPlayer.NickName + "Spawn[" + i.ToString() + "]", (int)spawnManager.spawn[i]);
+        }
 
         #endregion
 
@@ -158,7 +198,6 @@ public class GameManager : MonoBehaviourPunCallbacks
         //10웨이브클리어하면 restart에서 클리어판정
         if(wave > 10)
         {
-            Debug.Log("GameOver!");
             GameOver();
             return;
         }
@@ -178,6 +217,14 @@ public class GameManager : MonoBehaviourPunCallbacks
         StartCoroutine(WaveCheck());
     }
 
+    public void ResourceBtn()
+    {
+        goods.bone += 10000;
+        goods.tear += 10000;
+        goods.soulgem += 10000;
+    }
+
+    //유지 보수 시간
     private IEnumerator ReStartMaintenance()
     {
         uiManager.isMaintenance = true;
@@ -204,4 +251,6 @@ public class GameManager : MonoBehaviourPunCallbacks
     public static int wave = 1;
     public bool waveUp = false;
     public Goods goods = new Goods();
+    public int goodsCollectAdjust = 10;
+    public int[] spawnMappingArray = new int[19];
 }

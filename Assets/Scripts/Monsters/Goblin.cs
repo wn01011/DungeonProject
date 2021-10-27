@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class Goblin : Monster
 {
-    public static float static_maxHp = 15f;
+    public static float static_maxHp = 30f;
     public static float staticDmg = 3f;
-    public static float staticDef = 0f;
+    public static float staticDef = 2f;
     private int critical_hit = 0;
 
     protected override void Start()
     {
         base.Start();
-        hp = 15f;
+        hp = 30f;
         maxHp = hp;
         damage = 3f;
-        defense = 0f;
+        defense = 2f;
     }
     protected void Update()
     {
@@ -32,6 +32,11 @@ public class Goblin : Monster
             target.Hurt(damage,target.defense);
             Passive_Skill();
         }
+    }
+    public void SetStaticHp()
+    {
+        maxHp = static_maxHp;
+        hp = static_maxHp;
     }
     protected override void Active_Skill()
     {

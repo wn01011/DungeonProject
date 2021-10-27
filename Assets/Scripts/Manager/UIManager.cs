@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using Photon.Pun;
-using Photon.Realtime;
 
 public class UIManager : MonoBehaviourPunCallbacks
 {
-    protected struct MonsterUpgradeCost
+    public struct MonsterUpgradeCost
     {
         public int boneCost;
         public int tearCost;
@@ -103,6 +103,9 @@ public class UIManager : MonoBehaviourPunCallbacks
 
         #endregion
 
+        magicRoomUpgradeCost = 100;
+        skullHarvestRoomUpgradeCost = 100;
+
         #endregion
 
         #region upgradeCost Text
@@ -112,6 +115,7 @@ public class UIManager : MonoBehaviourPunCallbacks
         {
             upgradeText[2 * i + 1].text = "100";
         }
+        roomUpgradeText = buildBtnPanel.GetComponentsInChildren<Text>();
 
         #endregion
 
@@ -121,6 +125,7 @@ public class UIManager : MonoBehaviourPunCallbacks
         StartCoroutine(roomRayCastColCheckCoroutine());
         StartCoroutine(StatsTextUpdate());
     }
+
     private void Update()
     {
         MoveCursor();
@@ -188,6 +193,8 @@ public class UIManager : MonoBehaviourPunCallbacks
     {
         RoomColArraySetActive(true);
         PhotonNetwork.Disconnect();
+        Debug.Log("연결해제!");
+        SceneManager.LoadScene("Title");
     }
     public void SetMonsterPanelExitBtn()
     {
@@ -214,6 +221,25 @@ public class UIManager : MonoBehaviourPunCallbacks
         }
     }
 
+    #region GameSpdBtns
+
+    public void x1SpeedBtn()
+    {
+        Time.timeScale = 1f;
+    }
+
+    public void x2SpeedBtn()
+    {
+        Time.timeScale = 2f;
+    }
+
+    public void x3SpeedBtn()
+    {
+        Time.timeScale = 3f;
+    }
+
+    #endregion
+
     #endregion
 
     #region MonsterUnit UpgradeBtn
@@ -226,7 +252,7 @@ public class UIManager : MonoBehaviourPunCallbacks
             gameManager.goods.bone -= skeletonUpgradeCost.boneCost;
             Skeleton.staticDmg += 1f;
             skeletonUpgradeCost.boneCost += 100;
-            PlayerPrefs.SetInt("SkeletonBones", skeletonUpgradeCost.boneCost);
+            PlayerPrefs.SetInt(PhotonNetwork.LocalPlayer.NickName + "SkeletonBones", skeletonUpgradeCost.boneCost);
             upgradeText[1].text = skeletonUpgradeCost.boneCost.ToString();
         }
         else
@@ -243,7 +269,7 @@ public class UIManager : MonoBehaviourPunCallbacks
             gameManager.goods.tear -= skeletonUpgradeCost.tearCost;
             Skeleton.staticDef += 1f;
             skeletonUpgradeCost.tearCost += 100;
-            PlayerPrefs.SetInt("SkeletonTears", skeletonUpgradeCost.tearCost);
+            PlayerPrefs.SetInt(PhotonNetwork.LocalPlayer.NickName + "SkeletonTears", skeletonUpgradeCost.tearCost);
             upgradeText[3].text = skeletonUpgradeCost.tearCost.ToString();
         }
         else
@@ -255,12 +281,17 @@ public class UIManager : MonoBehaviourPunCallbacks
 
     public void Skeleton_hpUp()
     {
+        Skeleton[] skeletons = FindObjectsOfType<Skeleton>();
         if (gameManager.goods.soulgem >= skeletonUpgradeCost.soulgemCost)
         {
             gameManager.goods.soulgem -= skeletonUpgradeCost.soulgemCost;
             Skeleton.static_maxHp += 10f;
+            foreach(Skeleton targetSkeleton in skeletons)
+            {
+                targetSkeleton.SetStaticHp();
+            }
             skeletonUpgradeCost.soulgemCost += 100;
-            PlayerPrefs.SetInt("SkeletonSoulGems", skeletonUpgradeCost.soulgemCost);
+            PlayerPrefs.SetInt(PhotonNetwork.LocalPlayer.NickName + "SkeletonSoulGems", skeletonUpgradeCost.soulgemCost);
             upgradeText[5].text = skeletonUpgradeCost.soulgemCost.ToString();
         }
         else
@@ -276,10 +307,11 @@ public class UIManager : MonoBehaviourPunCallbacks
     {
         if (gameManager.goods.bone >= zombieUpgradeCost.boneCost)
         {
+            
             gameManager.goods.bone -= zombieUpgradeCost.boneCost;
             Zombie.staticDmg += 1f;
             zombieUpgradeCost.boneCost += 100;
-            PlayerPrefs.SetInt("ZombieBones", zombieUpgradeCost.boneCost);
+            PlayerPrefs.SetInt(PhotonNetwork.LocalPlayer.NickName + "ZombieBones", zombieUpgradeCost.boneCost);
             upgradeText[7].text = zombieUpgradeCost.boneCost.ToString();
         }
         else
@@ -296,7 +328,7 @@ public class UIManager : MonoBehaviourPunCallbacks
             gameManager.goods.tear -= zombieUpgradeCost.tearCost;
             Zombie.staticDef += 1f;
             zombieUpgradeCost.tearCost += 100;
-            PlayerPrefs.SetInt("ZombieTears", zombieUpgradeCost.tearCost);
+            PlayerPrefs.SetInt(PhotonNetwork.LocalPlayer.NickName + "ZombieTears", zombieUpgradeCost.tearCost);
             upgradeText[9].text = zombieUpgradeCost.tearCost.ToString();
         }
         else
@@ -310,10 +342,16 @@ public class UIManager : MonoBehaviourPunCallbacks
     {
         if (gameManager.goods.soulgem >= zombieUpgradeCost.soulgemCost)
         {
+            Zombie[] zombies = FindObjectsOfType<Zombie>();
+
             gameManager.goods.soulgem -= zombieUpgradeCost.soulgemCost;
             Zombie.static_maxHp += 10f;
+            foreach(Zombie targetZom in zombies)
+            {
+                targetZom.SetStaticHp();
+            }
             zombieUpgradeCost.soulgemCost += 100;
-            PlayerPrefs.SetInt("ZombieSoulGems", zombieUpgradeCost.soulgemCost);
+            PlayerPrefs.SetInt(PhotonNetwork.LocalPlayer.NickName + "ZombieSoulGems", zombieUpgradeCost.soulgemCost);
             upgradeText[11].text = zombieUpgradeCost.soulgemCost.ToString();
         }
         else
@@ -332,7 +370,7 @@ public class UIManager : MonoBehaviourPunCallbacks
             gameManager.goods.bone -= goblinUpgradeCost.boneCost;
             Goblin.staticDmg += 1f;
             goblinUpgradeCost.boneCost += 100;
-            PlayerPrefs.SetInt("GoblinBones", goblinUpgradeCost.boneCost);
+            PlayerPrefs.SetInt(PhotonNetwork.LocalPlayer.NickName + "GoblinBones", goblinUpgradeCost.boneCost);
             upgradeText[13].text = goblinUpgradeCost.boneCost.ToString();
         }
         else
@@ -349,7 +387,7 @@ public class UIManager : MonoBehaviourPunCallbacks
             gameManager.goods.tear -= goblinUpgradeCost.tearCost;
             Goblin.staticDef += 1f;
             goblinUpgradeCost.tearCost += 100;
-            PlayerPrefs.SetInt("GoblinTears", goblinUpgradeCost.tearCost);
+            PlayerPrefs.SetInt(PhotonNetwork.LocalPlayer.NickName + "GoblinTears", goblinUpgradeCost.tearCost);
             upgradeText[15].text = goblinUpgradeCost.tearCost.ToString();
         }
         else
@@ -363,10 +401,16 @@ public class UIManager : MonoBehaviourPunCallbacks
     {
         if (gameManager.goods.soulgem >= goblinUpgradeCost.soulgemCost)
         {
+            Goblin[] goblins = FindObjectsOfType<Goblin>();
+
             gameManager.goods.soulgem -= goblinUpgradeCost.soulgemCost;
             Goblin.static_maxHp += 10f;
+            foreach(Goblin targetGo in goblins)
+            {
+                targetGo.SetStaticHp();
+            }
             goblinUpgradeCost.soulgemCost += 100;
-            PlayerPrefs.SetInt("GoblinSoulGems", goblinUpgradeCost.soulgemCost);
+            PlayerPrefs.SetInt(PhotonNetwork.LocalPlayer.NickName + "GoblinSoulGems", goblinUpgradeCost.soulgemCost);
             upgradeText[17].text = goblinUpgradeCost.soulgemCost.ToString();
         }
         else
@@ -385,7 +429,7 @@ public class UIManager : MonoBehaviourPunCallbacks
             gameManager.goods.bone -= flyingEyeUpgradeCost.boneCost;
             FlyingEye.staticDmg += 1f;
             flyingEyeUpgradeCost.boneCost += 100;
-            PlayerPrefs.SetInt("FlyingEyeBones", flyingEyeUpgradeCost.boneCost);
+            PlayerPrefs.SetInt(PhotonNetwork.LocalPlayer.NickName + "FlyingEyeBones", flyingEyeUpgradeCost.boneCost);
             upgradeText[19].text = flyingEyeUpgradeCost.boneCost.ToString();
         }
         else
@@ -402,7 +446,7 @@ public class UIManager : MonoBehaviourPunCallbacks
             gameManager.goods.tear -= flyingEyeUpgradeCost.tearCost;
             FlyingEye.staticDef += 1f;
             flyingEyeUpgradeCost.tearCost += 100;
-            PlayerPrefs.SetInt("FlyingEyeTears", flyingEyeUpgradeCost.tearCost);
+            PlayerPrefs.SetInt(PhotonNetwork.LocalPlayer.NickName + "FlyingEyeTears", flyingEyeUpgradeCost.tearCost);
             upgradeText[21].text = flyingEyeUpgradeCost.tearCost.ToString();
         }
         else
@@ -416,10 +460,16 @@ public class UIManager : MonoBehaviourPunCallbacks
     {
         if (gameManager.goods.soulgem >= flyingEyeUpgradeCost.soulgemCost)
         {
+            FlyingEye[] flyingEyes = FindObjectsOfType<FlyingEye>();
+
             gameManager.goods.soulgem -= flyingEyeUpgradeCost.soulgemCost;
             FlyingEye.static_maxHp += 10f;
+            foreach(FlyingEye targetEye in flyingEyes)
+            {
+                targetEye.SetStaticHp();
+            }
             flyingEyeUpgradeCost.soulgemCost += 100;
-            PlayerPrefs.SetInt("FlyingEyeSoulGems", flyingEyeUpgradeCost.soulgemCost);
+            PlayerPrefs.SetInt(PhotonNetwork.LocalPlayer.NickName + "FlyingEyeSoulGems", flyingEyeUpgradeCost.soulgemCost);
             upgradeText[23].text = flyingEyeUpgradeCost.soulgemCost.ToString();
         }
         else
@@ -438,7 +488,7 @@ public class UIManager : MonoBehaviourPunCallbacks
             gameManager.goods.bone -= darkWizardUpgradeCost.boneCost;
             DarkWizard.staticDmg += 1f;
             darkWizardUpgradeCost.boneCost += 100;
-            PlayerPrefs.SetInt("DarkWizardBones", darkWizardUpgradeCost.boneCost);
+            PlayerPrefs.SetInt(PhotonNetwork.LocalPlayer.NickName + "DarkWizardBones", darkWizardUpgradeCost.boneCost);
             upgradeText[25].text = darkWizardUpgradeCost.boneCost.ToString();
         }
         else
@@ -455,7 +505,7 @@ public class UIManager : MonoBehaviourPunCallbacks
             gameManager.goods.tear -= darkWizardUpgradeCost.tearCost;
             DarkWizard.staticDef += 1f;
             darkWizardUpgradeCost.tearCost += 100;
-            PlayerPrefs.SetInt("DarkWizardTears", darkWizardUpgradeCost.tearCost);
+            PlayerPrefs.SetInt(PhotonNetwork.LocalPlayer.NickName + "DarkWizardTears", darkWizardUpgradeCost.tearCost);
             upgradeText[27].text = darkWizardUpgradeCost.tearCost.ToString();
         }
         else
@@ -469,10 +519,16 @@ public class UIManager : MonoBehaviourPunCallbacks
     {
         if (gameManager.goods.soulgem >= darkWizardUpgradeCost.soulgemCost)
         {
+            DarkWizard[] darkWizards = FindObjectsOfType<DarkWizard>();
+
             gameManager.goods.soulgem -= darkWizardUpgradeCost.soulgemCost;
             DarkWizard.static_maxHp += 10f;
+            foreach(DarkWizard targetWizard in darkWizards)
+            {
+                targetWizard.SetStaticHp();
+            }
             darkWizardUpgradeCost.soulgemCost += 100;
-            PlayerPrefs.SetInt("DarkWizardSoulGems", darkWizardUpgradeCost.soulgemCost);
+            PlayerPrefs.SetInt(PhotonNetwork.LocalPlayer.NickName + "DarkWizardSoulGems", darkWizardUpgradeCost.soulgemCost);
             upgradeText[29].text = darkWizardUpgradeCost.soulgemCost.ToString();
         }
         else
@@ -491,7 +547,7 @@ public class UIManager : MonoBehaviourPunCallbacks
             gameManager.goods.bone -= deathBringerUpgradeCost.boneCost;
             DeathBringer.staticDmg += 1f;
             deathBringerUpgradeCost.boneCost += 100;
-            PlayerPrefs.SetInt("DeathBringerBones", deathBringerUpgradeCost.boneCost);
+            PlayerPrefs.SetInt(PhotonNetwork.LocalPlayer.NickName + "DeathBringerBones", deathBringerUpgradeCost.boneCost);
             upgradeText[31].text = deathBringerUpgradeCost.boneCost.ToString();
         }
         else
@@ -508,7 +564,7 @@ public class UIManager : MonoBehaviourPunCallbacks
             gameManager.goods.tear -= deathBringerUpgradeCost.tearCost;
             DeathBringer.staticDef += 1f;
             deathBringerUpgradeCost.tearCost += 100;
-            PlayerPrefs.SetInt("DeathBringerTears", deathBringerUpgradeCost.tearCost);
+            PlayerPrefs.SetInt(PhotonNetwork.LocalPlayer.NickName + "DeathBringerTears", deathBringerUpgradeCost.tearCost);
             upgradeText[33].text = deathBringerUpgradeCost.tearCost.ToString();
         }
         else
@@ -522,10 +578,17 @@ public class UIManager : MonoBehaviourPunCallbacks
     {
         if (gameManager.goods.soulgem >= deathBringerUpgradeCost.soulgemCost)
         {
+            DeathBringer[] deathBringers = FindObjectsOfType<DeathBringer>();
+
             gameManager.goods.soulgem -= deathBringerUpgradeCost.soulgemCost;
             DeathBringer.static_maxHp += 10f;
+            foreach(DeathBringer targetBringer in deathBringers)
+            {
+                targetBringer.SetStaticHp();
+            }
+
             deathBringerUpgradeCost.soulgemCost += 100;
-            PlayerPrefs.SetInt("DeathBringerSoulGems", deathBringerUpgradeCost.soulgemCost);
+            PlayerPrefs.SetInt(PhotonNetwork.LocalPlayer.NickName + "DeathBringerSoulGems", deathBringerUpgradeCost.soulgemCost);
             upgradeText[35].text = darkWizardUpgradeCost.soulgemCost.ToString();
         }
         else
@@ -544,7 +607,7 @@ public class UIManager : MonoBehaviourPunCallbacks
             gameManager.goods.bone -= bossUpgradeCost.boneCost;
             Boss.staticDmg += 1f;
             bossUpgradeCost.boneCost += 100;
-            PlayerPrefs.SetInt("BossBones", bossUpgradeCost.boneCost);
+            PlayerPrefs.SetInt(PhotonNetwork.LocalPlayer.NickName + "BossBones", bossUpgradeCost.boneCost);
             upgradeText[37].text = bossUpgradeCost.boneCost.ToString();
         }
         else
@@ -561,7 +624,7 @@ public class UIManager : MonoBehaviourPunCallbacks
             gameManager.goods.tear -= bossUpgradeCost.tearCost;
             Boss.staticDef += 1f;
             bossUpgradeCost.tearCost += 100;
-            PlayerPrefs.SetInt("BossTears", bossUpgradeCost.tearCost);
+            PlayerPrefs.SetInt(PhotonNetwork.LocalPlayer.NickName + "BossTears", bossUpgradeCost.tearCost);
             upgradeText[39].text = bossUpgradeCost.tearCost.ToString();
         }
         else
@@ -575,10 +638,13 @@ public class UIManager : MonoBehaviourPunCallbacks
     {
         if (gameManager.goods.soulgem >= bossUpgradeCost.soulgemCost)
         {
+            Boss boss = FindObjectOfType<Boss>();
+
             gameManager.goods.soulgem -= bossUpgradeCost.soulgemCost;
             Boss.static_maxHp += 10f;
+            boss.SetStaticHp();
             bossUpgradeCost.soulgemCost += 100;
-            PlayerPrefs.SetInt("BossSoulGems", bossUpgradeCost.soulgemCost);
+            PlayerPrefs.SetInt(PhotonNetwork.LocalPlayer.NickName + "BossSoulGems", bossUpgradeCost.soulgemCost);
             upgradeText[41].text = bossUpgradeCost.soulgemCost.ToString();
         }
         else
@@ -590,7 +656,44 @@ public class UIManager : MonoBehaviourPunCallbacks
     #endregion
 
     #endregion
-    
+
+    #region Room UpgradeBtn
+
+    public void MagicRoomUpgradeBtn()
+    {
+        FireBall fireBall = canvas.GetComponent<FireBall>();
+        
+        if(gameManager.goods.tear >= magicRoomUpgradeCost)
+        {
+            gameManager.goods.tear -= magicRoomUpgradeCost;
+            fireBall.mpRegenerateAdjust += 0.2f;
+            magicRoomUpgradeCost += 50;
+            PlayerPrefs.SetInt(PhotonNetwork.LocalPlayer.NickName + "magicRoomUpgradeCost", magicRoomUpgradeCost);
+            PlayerPrefs.SetFloat(PhotonNetwork.LocalPlayer.NickName + "mpRegenerateAdjust", fireBall.mpRegenerateAdjust);
+            roomUpgradeText[3].text = magicRoomUpgradeCost.ToString();
+        }
+        else
+        {
+            Debug.Log(magicRoomUpgradeCost - gameManager.goods.tear + "Tear 이 모자랍니다.");
+        }
+    }
+
+    public void SkullHarvestRoomUpgradeBtn()
+    {
+        if(gameManager.goods.soulgem >= skullHarvestRoomUpgradeCost)
+        {
+            gameManager.goods.soulgem -= skullHarvestRoomUpgradeCost;
+            gameManager.goodsCollectAdjust += 10;
+            skullHarvestRoomUpgradeCost += 50;
+            PlayerPrefs.SetInt(PhotonNetwork.LocalPlayer.NickName + "skullHarvestRoomUpgardeCost", skullHarvestRoomUpgradeCost);
+            PlayerPrefs.SetInt(PhotonNetwork.LocalPlayer.NickName + "goodsCollectAdjust", gameManager.goodsCollectAdjust);
+            roomUpgradeText[6].text = skullHarvestRoomUpgradeCost.ToString();
+        }
+
+    }
+
+    #endregion
+
     #endregion
 
     #region Texts
@@ -615,8 +718,6 @@ public class UIManager : MonoBehaviourPunCallbacks
         yield return waitForSeconds;
         while (true)
         {
-            yield return new WaitUntil(() => isBtnClick == true);
-
             atkText[0].text = "공격력" + "\n" + Skeleton.staticDmg.ToString();
             defText[0].text = "방어력" + "\n" + Skeleton.staticDef.ToString();
             hpText[0].text = "체력" + "\n" + Skeleton.static_maxHp.ToString();
@@ -646,6 +747,8 @@ public class UIManager : MonoBehaviourPunCallbacks
             hpText[6].text = "체력" + "\n" + Boss.static_maxHp.ToString();
 
             isBtnClick = false;
+
+            yield return waitForSeconds;
         }
     }
 
@@ -677,23 +780,29 @@ public class UIManager : MonoBehaviourPunCallbacks
 
     #endregion
 
+
     #region variables
 
-    protected MonsterUpgradeCost skeletonUpgradeCost = new MonsterUpgradeCost();
-    protected MonsterUpgradeCost zombieUpgradeCost = new MonsterUpgradeCost();
-    protected MonsterUpgradeCost goblinUpgradeCost = new MonsterUpgradeCost();
-    protected MonsterUpgradeCost flyingEyeUpgradeCost = new MonsterUpgradeCost();
-    protected MonsterUpgradeCost darkWizardUpgradeCost = new MonsterUpgradeCost();
-    protected MonsterUpgradeCost deathBringerUpgradeCost = new MonsterUpgradeCost();
-    protected MonsterUpgradeCost bossUpgradeCost = new MonsterUpgradeCost();
+    public MonsterUpgradeCost skeletonUpgradeCost = new MonsterUpgradeCost();
+    public MonsterUpgradeCost zombieUpgradeCost = new MonsterUpgradeCost();
+    public MonsterUpgradeCost goblinUpgradeCost = new MonsterUpgradeCost();
+    public MonsterUpgradeCost flyingEyeUpgradeCost = new MonsterUpgradeCost();
+    public MonsterUpgradeCost darkWizardUpgradeCost = new MonsterUpgradeCost();
+    public MonsterUpgradeCost deathBringerUpgradeCost = new MonsterUpgradeCost();
+    public MonsterUpgradeCost bossUpgradeCost = new MonsterUpgradeCost();
 
+    public GameObject cursor = null;
     private Sprite cursorSprite = null;
-    private GameObject cursor = null;
+    
+    protected int magicRoomUpgradeCost = 0;
+    protected int skullHarvestRoomUpgradeCost = 0;
+
     private bool isBtnClick = false;
     private WaitForSeconds waitForSeconds = new WaitForSeconds(0.1f);
     private List<Button> btnList = new List<Button>();
     private List<GameObject> panelList = new List<GameObject>();
     private Text[] upgradeText = null;
+    private Text[] roomUpgradeText = null;
 
     [Header("ETC")]
     public bool isMaintenance = false;
